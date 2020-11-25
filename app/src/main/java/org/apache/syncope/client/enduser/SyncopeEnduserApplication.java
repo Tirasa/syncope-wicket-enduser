@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -53,6 +53,7 @@ import org.apache.syncope.client.enduser.pages.Dashboard;
 import org.apache.syncope.client.enduser.pages.Login;
 import org.apache.syncope.client.enduser.pages.MustChangePassword;
 import org.apache.syncope.client.enduser.pages.SelfConfirmPasswordReset;
+import org.apache.syncope.client.enduser.panels.Sidebar;
 import org.apache.syncope.client.enduser.themes.AdminLTE;
 import org.apache.syncope.client.lib.AnonymousAuthenticationHandler;
 import org.apache.syncope.client.lib.SyncopeClientFactoryBean;
@@ -126,6 +127,8 @@ public class SyncopeEnduserApplication extends AuthenticatedWebApplication {
     private List<String> domains;
 
     private String adminUser;
+
+    private Class<? extends Sidebar> sidebar;
 
     private Map<String, Class<? extends BasePage>> pageClasses;
 
@@ -201,6 +204,8 @@ public class SyncopeEnduserApplication extends AuthenticatedWebApplication {
         pageClasses = new HashMap<>();
         populatePageClasses(props);
         pageClasses = Collections.unmodifiableMap(pageClasses);
+
+        buildSidebarClass(props);
 
         // Application settings
         IBootstrapSettings settings = new BootstrapSettings();
@@ -428,6 +433,24 @@ public class SyncopeEnduserApplication extends AuthenticatedWebApplication {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    private void buildSidebarClass(final Properties props) {
+        try {
+            Class<?> clazz = ClassUtils.getClass(props.getProperty("sidebar", Sidebar.class.getCanonicalName()));
+            if (Sidebar.class.isAssignableFrom(clazz)) {
+                sidebar = (Class<? extends Sidebar>) clazz;
+            } else {
+                LOG.warn("{} does not extend {}, ignoring...", clazz.getName(), Sidebar.class.getName());
+            }
+        } catch (ClassNotFoundException e) {
+            LOG.error("While looking for class identified by property 'sidebar'", e);
+        }
+    }
+
+    public Class<? extends Sidebar> getSidebar() {
+        return sidebar;
+    }
+    
     public String getAdminUser() {
         return adminUser;
     }

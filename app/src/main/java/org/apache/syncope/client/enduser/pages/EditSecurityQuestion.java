@@ -56,7 +56,7 @@ public class EditSecurityQuestion extends BasePage {
     public EditSecurityQuestion(final PageParameters parameters) {
         super(parameters);
 
-        userTO = SyncopeEnduserSession.get().getSelfTO();
+        userTO = SyncopeEnduserSession.get().getSelfTO(true);
 
         WebMarkupContainer content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);

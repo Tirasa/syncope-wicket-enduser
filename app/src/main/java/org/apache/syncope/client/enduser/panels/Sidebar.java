@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -41,33 +41,18 @@ public class Sidebar extends Panel {
     private static final long serialVersionUID = 8091307811313529503L;
 
     private final List<WebMarkupContainer> navbarItems = new ArrayList<>();
+    
+    protected WebMarkupContainer profileULContainer;
+
+    protected WebMarkupContainer profileLIContainer;
 
     public Sidebar(final String id,
             final PageReference pageReference,
             final List<Class<? extends BasePage>> extPageClasses) {
         super(id);
 
-        WebMarkupContainer liContainer = new WebMarkupContainer(getLIContainerId("home"));
-        add(liContainer);
-        liContainer.add(BookmarkablePageLinkBuilder.build("home", Dashboard.class));
-
-        WebMarkupContainer profileLIContainer = new WebMarkupContainer(getLIContainerId("profile"));
-        add(profileLIContainer);
-        WebMarkupContainer profileULContainer = new WebMarkupContainer(getULContainerId("profile"));
-        profileLIContainer.add(profileULContainer);
-
-        liContainer = new WebMarkupContainer(getLIContainerId("edituser"));
-        profileULContainer.add(liContainer);
-        liContainer.add(BookmarkablePageLinkBuilder.build("edituser", EditUser.class));
-
-        liContainer = new WebMarkupContainer(getLIContainerId("editchangepassword"));
-        profileULContainer.add(liContainer);
-        liContainer.add(BookmarkablePageLinkBuilder.build("editchangepassword", EditChangePassword.class));
-
-        liContainer = new WebMarkupContainer(getLIContainerId("editsecurityquestion"));
-        profileULContainer.add(liContainer);
-        liContainer.add(BookmarkablePageLinkBuilder.build("editsecurityquestion", EditSecurityQuestion.class));
-
+        buildBaseSidebar();
+        
         RepeatingView listItems = new RepeatingView("listItems");
         add(listItems);
 
@@ -129,11 +114,34 @@ public class Sidebar extends Panel {
         }
     }
 
-    private String getLIContainerId(final String linkId) {
+    protected void buildBaseSidebar() {
+        WebMarkupContainer liContainer = new WebMarkupContainer(getLIContainerId("home"));
+        add(liContainer);
+        liContainer.add(BookmarkablePageLinkBuilder.build("home", Dashboard.class));
+
+        profileLIContainer = new WebMarkupContainer(getLIContainerId("profile"));
+        add(profileLIContainer);
+        profileULContainer = new WebMarkupContainer(getULContainerId("profile"));
+        profileLIContainer.add(profileULContainer);
+
+        liContainer = new WebMarkupContainer(getLIContainerId("edituser"));
+        profileULContainer.add(liContainer);
+        liContainer.add(BookmarkablePageLinkBuilder.build("edituser", EditUser.class));
+
+        liContainer = new WebMarkupContainer(getLIContainerId("editchangepassword"));
+        profileULContainer.add(liContainer);
+        liContainer.add(BookmarkablePageLinkBuilder.build("editchangepassword", EditChangePassword.class));
+
+        liContainer = new WebMarkupContainer(getLIContainerId("editsecurityquestion"));
+        profileULContainer.add(liContainer);
+        liContainer.add(BookmarkablePageLinkBuilder.build("editsecurityquestion", EditSecurityQuestion.class));
+    }
+
+    protected String getLIContainerId(final String linkId) {
         return linkId + "LI";
     }
 
-    private String getULContainerId(final String linkId) {
+    protected String getULContainerId(final String linkId) {
         return linkId + "UL";
     }
 

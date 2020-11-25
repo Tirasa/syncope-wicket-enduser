@@ -29,7 +29,7 @@ public class UserProfileWidget extends BaseWidget {
     public UserProfileWidget(final String id) {
         super(id);
 
-        userTO = SyncopeEnduserSession.get().getSelfTO();
+        userTO = SyncopeEnduserSession.get().getSelfTO(true);
 
         WebMarkupContainer userProfile = new WebMarkupContainer("userProfile");
         userProfile.setOutputMarkupId(true);

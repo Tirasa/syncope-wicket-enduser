@@ -19,6 +19,7 @@ import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.enduser.layout.UserFormLayoutInfo;
 import org.apache.syncope.client.enduser.panels.UserFormPanel;
+import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.syncope.common.rest.api.service.SyncopeService;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -34,10 +35,12 @@ public class EditUser extends BasePage {
         content.setOutputMarkupId(true);
         contentWrapper.add(content);
 
+        UserTO userTO = SyncopeEnduserSession.get().getSelfTO(true);
+        
         UserFormPanel editUserPanel = new UserFormPanel(
                 "editUserPanel",
-                SyncopeEnduserSession.get().getSelfTO(),
-                SyncopeEnduserSession.get().getSelfTO(),
+                userTO,
+                userTO,
                 SyncopeEnduserSession.get().getService(SyncopeService.class).platform().getUserClasses(),
                 buildFormLayout(),
                 getPageReference());

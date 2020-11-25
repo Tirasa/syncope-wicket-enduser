@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -16,6 +16,8 @@
 package org.apache.syncope.client.enduser.pages;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
@@ -29,6 +31,7 @@ import org.apache.syncope.client.enduser.panels.Sidebar;
 import org.apache.syncope.client.ui.commons.pages.BaseWebPage;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Page;
+import org.apache.wicket.PageReference;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
@@ -76,7 +79,19 @@ public class BasePage extends BaseWebPage {
                 ? SyncopeEnduserSession.get().getSelfTO().getUsername() : StringUtils.EMPTY));
 
         // sidebar
-        sidebar = new Sidebar("sidebar", getPageReference(), lookup.getExtPageClasses());
+        Class<? extends Sidebar> clazz = SyncopeEnduserApplication.get().getSidebar();
+
+        try {
+            sidebar = clazz.getConstructor(
+                    String.class,
+                    PageReference.class,
+                    List.class).
+                    newInstance("sidebar", getPageReference(), lookup.getExtPageClasses());
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException e) {
+            throw new IllegalArgumentException("Could not instantiate " + clazz.getName(), e);
+        }
+
         sidebar.setOutputMarkupPlaceholderTag(true);
         body.add(sidebar);
 

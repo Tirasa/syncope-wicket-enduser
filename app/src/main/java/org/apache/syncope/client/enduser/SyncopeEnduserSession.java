@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -289,6 +289,13 @@ public class SyncopeEnduserSession extends AuthenticatedWebSession implements Ba
 
     @Override
     public UserTO getSelfTO() {
+        return getSelfTO(false);
+    }
+
+    public UserTO getSelfTO(final boolean reload) {
+        if (reload) {
+            afterAuthentication(selfTO.getUsername());
+        }
         return selfTO;
     }
 
