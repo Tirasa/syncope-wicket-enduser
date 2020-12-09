@@ -29,8 +29,11 @@ import org.apache.syncope.client.ui.commons.annotations.ExtPage;
 import org.apache.syncope.client.ui.commons.wicket.markup.html.bootstrap.tabs.Accordion;
 import org.apache.syncope.common.lib.SyncopeClientException;
 import org.apache.syncope.common.lib.to.BpmnProcess;
+import org.apache.syncope.common.lib.to.ProvisioningResult;
 import org.apache.syncope.common.lib.to.UserRequest;
 import org.apache.syncope.common.lib.to.UserRequestForm;
+import org.apache.syncope.common.lib.to.UserTO;
+import org.apache.syncope.common.lib.types.ExecStatus;
 import org.apache.syncope.ext.client.common.ui.panels.UserRequestFormPanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -193,14 +196,23 @@ public class Flowable extends BasePage {
                                         protected void onSubmit(final AjaxRequestTarget target) {
                                             try {
                                                 UserRequestRestClient.claimForm(formTO.getTaskId());
-                                                UserRequestRestClient.submitForm(formTO);
+                                                ProvisioningResult<UserTO> result =
+                                                        UserRequestRestClient.submitForm(formTO);
+
+                                                if (result.getPropagationStatuses().stream().anyMatch(
+                                                        prop -> ExecStatus.FAILURE == prop.getStatus()
+                                                        || ExecStatus.NOT_ATTEMPTED == prop.getStatus())) {
+                                                    SyncopeEnduserSession.get().
+                                                            error(getString(Constants.USER_REQUEST_ERROR));
+                                                    notificationPanel.refresh(target);
+                                                }
+
                                                 target.add(container);
                                             } catch (SyncopeClientException sce) {
                                                 LOG.error("Unable to submit user request form for BPMN process [{}]",
                                                         formTO.getBpmnProcess(), sce);
-                                                SyncopeEnduserSession.get().error(StringUtils.isBlank(sce.getMessage())
-                                                        ? sce.getClass().getName()
-                                                        : sce.getMessage());
+                                                SyncopeEnduserSession.get().
+                                                        error(getString(Constants.USER_REQUEST_ERROR));
                                                 notificationPanel.refresh(target);
                                             }
                                         }

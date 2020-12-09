@@ -147,7 +147,7 @@ public class EditSecurityQuestion extends BasePage {
                     } catch (Exception e) {
                         LOG.error("While changing password for {}",
                                 SyncopeEnduserSession.get().getSelfTO().getUsername(), e);
-                        parameters.add(Constants.STATUS, Constants.OPERATION_SUCCEEDED);
+                        parameters.add(Constants.STATUS, Constants.OPERATION_ERROR);
                         parameters.add(Constants.NOTIFICATION_TITLE_PARAM,
                                 getString("self.securityquestion.change.error"));
                         parameters.add(Constants.NOTIFICATION_MSG_PARAM,
