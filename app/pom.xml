@@ -242,6 +242,10 @@
       <properties>
         <skipTests>true</skipTests>
         <packaging.type>war</packaging.type>
+        
+        <secretKey>pwdunifi</secretKey>
+        <anonymousKey>pwdunifi</anonymousKey>
+        <jwsKey>pwdunifi</jwsKey>
       </properties>
 
       <dependencies>
@@ -312,11 +316,23 @@
                 <systemProperties>
                   <java.security.egd>file:/dev/./urandom</java.security.egd>
                   <java.util.secureRandomSeed>true</java.util.secureRandomSeed>
+                  <javax.net.ssl.trustStore>/home/marco/Work/UniFi/IAM/fit/src/main/resources/keystore</javax.net.ssl.trustStore>
+                  <javax.net.ssl.trustStorePassword>keyst0r3</javax.net.ssl.trustStorePassword>
                 </systemProperties>
               </container>
               <configuration>
                 <type>standalone</type>
-                <properties>
+                <properties>            
+                  <cargo.servlet.port>18443</cargo.servlet.port>
+                  <cargo.rmi.port>11099</cargo.rmi.port>
+                  <cargo.tomcat.ajp.port>18009</cargo.tomcat.ajp.port>
+                  <cargo.protocol>https</cargo.protocol>
+                  <!--<cargo.tomcat.connector.clientAuth>optional</cargo.tomcat.connector.clientAuth>-->
+                  <cargo.tomcat.connector.sslProtocol>TLS</cargo.tomcat.connector.sslProtocol>
+                  <cargo.tomcat.connector.keystoreFile>/home/marco/Work/UniFi/IAM/fit/src/main/resources/keystore</cargo.tomcat.connector.keystoreFile>
+                  <cargo.tomcat.connector.keystorePass>keyst0r3</cargo.tomcat.connector.keystorePass>
+                  <cargo.tomcat.connector.keyAlias>Tomcat</cargo.tomcat.connector.keyAlias>
+                  <cargo.tomcat.httpSecure>true</cargo.tomcat.httpSecure>
                   <cargo.jvmargs>
                     -Xdebug -Djaxb.debug=true -Xrunjdwp:transport=dt_socket,address=8004,server=y,suspend=n
                     -Dwicket.configuration=development
