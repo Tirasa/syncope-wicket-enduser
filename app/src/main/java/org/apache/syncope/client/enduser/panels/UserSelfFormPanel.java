@@ -64,7 +64,7 @@ public class UserSelfFormPanel extends UserFormPanel {
     }
 
     @Override
-    protected Details<UserTO> addOptionalDetailsPanel(AnyWrapper<UserTO> modelObject) {
+    protected Details<UserTO> addOptionalDetailsPanel(final AnyWrapper<UserTO> modelObject) {
         return super.addOptionalDetailsPanel(modelObject);
     }
 

@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -46,13 +46,11 @@ public abstract class AbstractAnyFormPanel<T extends Serializable> extends Abstr
             }
 
             @Override
-            protected void onError(AjaxRequestTarget target) {
+            protected void onError(final AjaxRequestTarget target) {
                 ((BasePage) getPage()).getNotificationPanel().refresh(target);
             }
         };
-        
-        
-        
+
         submitButton.setOutputMarkupId(true);
         submitButton.setDefaultFormProcessing(true);
         form.add(submitButton);
