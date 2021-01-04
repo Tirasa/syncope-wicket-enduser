@@ -21,7 +21,7 @@ Apache Syncope Enduser UI built with Apache Wicket
 
 This project provides an alternative [Enduser UI](http://syncope.apache.org/docs/2.1/getting-started.html#enduser) for Apache Syncope 2.1.X based on Apache Wicket.
 
-<a href="https://travis-ci.org/Tirasa/syncope-wicket-enduser"><img src="https://api.travis-ci.org/Tirasa/syncope-wicket-enduser.png"/></a> 
+<a href="https://travis-ci.com/Tirasa/syncope-wicket-enduser"><img src="https://api.travis-ci.com/Tirasa/syncope-wicket-enduser.png"/></a> 
 <a href="#">
   <img src="https://img.shields.io/maven-central/v/net.tirasa.syncope/syncope-wicket-enduser.svg"/>
 </a>
