@@ -16,6 +16,7 @@
 package org.apache.syncope.client.enduser.panels;
 
 import java.io.Serializable;
+import org.apache.syncope.client.enduser.pages.BasePage;
 import org.apache.wicket.PageReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -43,9 +44,17 @@ public abstract class AbstractAnyFormPanel<T extends Serializable> extends Abstr
             protected void onSubmit(final AjaxRequestTarget target) {
                 onFormSubmit(target);
             }
+
+            @Override
+            protected void onError(AjaxRequestTarget target) {
+                ((BasePage) getPage()).getNotificationPanel().refresh(target);
+            }
         };
+        
+        
+        
         submitButton.setOutputMarkupId(true);
-        submitButton.setDefaultFormProcessing(false);
+        submitButton.setDefaultFormProcessing(true);
         form.add(submitButton);
 
         Button cancel = new Button("cancel") {

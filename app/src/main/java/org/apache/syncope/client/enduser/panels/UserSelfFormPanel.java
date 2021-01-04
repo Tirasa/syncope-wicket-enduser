@@ -25,8 +25,9 @@ import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.enduser.layout.UserFormLayoutInfo;
 import org.apache.syncope.client.enduser.pages.BasePage;
-import org.apache.syncope.client.enduser.pages.Dashboard;
+import org.apache.syncope.client.enduser.pages.Login;
 import org.apache.syncope.client.enduser.pages.SelfResult;
+import org.apache.syncope.client.enduser.panels.any.Details;
 import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
 import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.pages.BaseWebPage;
@@ -49,7 +50,7 @@ public class UserSelfFormPanel extends UserFormPanel {
     private final UserSelfRestClient userSelfRestClient = new UserSelfRestClient();
 
     private TextField<String> securityQuestion;
-    
+
     private String usernameText;
 
     public UserSelfFormPanel(
@@ -60,6 +61,11 @@ public class UserSelfFormPanel extends UserFormPanel {
             final UserFormLayoutInfo formLayoutInfo,
             final PageReference pageReference) {
         super(id, previousUserTO, userTO, anyTypeClasses, formLayoutInfo, pageReference);
+    }
+
+    @Override
+    protected Details<UserTO> addOptionalDetailsPanel(AnyWrapper<UserTO> modelObject) {
+        return super.addOptionalDetailsPanel(modelObject);
     }
 
     @Override
@@ -78,7 +84,7 @@ public class UserSelfFormPanel extends UserFormPanel {
             try {
                 AnyWrapper<UserTO> updatetedWarapper = form.getModelObject();
                 UserTO userTO = updatetedWarapper.getInnerObject();
-                
+
                 result = userSelfRestClient.create(userTO, true);
                 LOG.debug("User {} has been created", result.getEntity().getUsername());
 
@@ -92,7 +98,7 @@ public class UserSelfFormPanel extends UserFormPanel {
                 SyncopeEnduserSession.get().onException(sce);
                 ((BasePage) pageReference.getPage()).getNotificationPanel().refresh(target);
             }
-            parameters.add(Constants.LANDING_PAGE, Dashboard.class.getName());
+            parameters.add(Constants.LANDING_PAGE, Login.class);
             setResponsePage(SelfResult.class, parameters);
         }
     }
