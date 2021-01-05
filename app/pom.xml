@@ -316,7 +316,7 @@
               </container>
               <configuration>
                 <type>standalone</type>
-                <properties>            
+                <properties>
                   <cargo.jvmargs>
                     -Xdebug -Djaxb.debug=true -Xrunjdwp:transport=dt_socket,address=8004,server=y,suspend=n
                     -Dwicket.configuration=development

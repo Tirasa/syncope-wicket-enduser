@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -85,6 +85,13 @@ public class UserDetails extends Details<UserTO> {
                 RealmRestClient.list().stream().map(RealmTO::getFullPath).collect(Collectors.toList()));
         add(realm);
 
+        // ------------------------
+        // Password
+        // ------------------------
+        EditUserPasswordPanel panel = new EditUserPasswordPanel("password", wrapper, templateMode);
+        panel.setEnabled(true);
+
+        add(panel);
     }
 
     public static class EditUserPasswordPanel extends Panel {

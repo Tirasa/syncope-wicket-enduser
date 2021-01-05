@@ -27,7 +27,6 @@ import org.apache.syncope.client.enduser.layout.UserFormLayoutInfo;
 import org.apache.syncope.client.enduser.pages.BasePage;
 import org.apache.syncope.client.enduser.pages.Login;
 import org.apache.syncope.client.enduser.pages.SelfResult;
-import org.apache.syncope.client.enduser.panels.any.Details;
 import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
 import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.pages.BaseWebPage;
@@ -61,11 +60,6 @@ public class UserSelfFormPanel extends UserFormPanel {
             final UserFormLayoutInfo formLayoutInfo,
             final PageReference pageReference) {
         super(id, previousUserTO, userTO, anyTypeClasses, formLayoutInfo, pageReference);
-    }
-
-    @Override
-    protected Details<UserTO> addOptionalDetailsPanel(final AnyWrapper<UserTO> modelObject) {
-        return super.addOptionalDetailsPanel(modelObject);
     }
 
     @Override

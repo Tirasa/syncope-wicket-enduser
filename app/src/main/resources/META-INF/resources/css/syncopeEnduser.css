@@ -443,7 +443,7 @@ div#outer.modal-lg, div#utilityModal.modal-lg, section#notifications .modal-lg {
 }
 
 .details {
-  max-height: 401px;
+  max-height: 440px;
   overflow-x: hidden;
   overflow-y: auto;
   display: block
