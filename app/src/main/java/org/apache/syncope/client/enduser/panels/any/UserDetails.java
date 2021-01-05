@@ -89,7 +89,7 @@ public class UserDetails extends Details<UserTO> {
         // Password
         // ------------------------
         EditUserPasswordPanel panel = new EditUserPasswordPanel("password", wrapper, templateMode);
-        panel.setEnabled(true);
+        panel.setEnabled(showPasswordManagement);
 
         add(panel);
     }
