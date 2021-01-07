@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -34,6 +34,8 @@ public class UserFormLayoutInfo extends AbstractAnyFormBaseLayout<UserTO, UserFo
 
     private boolean passwordManagement = true;
 
+    private boolean detailsManagement = true;
+
     public Map<String, CustomizationOption> getWhichPlainAttrs() {
         return whichPlainAttrs;
     }
@@ -57,5 +59,13 @@ public class UserFormLayoutInfo extends AbstractAnyFormBaseLayout<UserTO, UserFo
 
     public void setPasswordManagement(final boolean passwordManagement) {
         this.passwordManagement = passwordManagement;
+    }
+
+    public boolean isDetailsManagement() {
+        return detailsManagement;
+    }
+
+    public void setDetailsManagement(final boolean detailsManagement) {
+        this.detailsManagement = detailsManagement;
     }
 }

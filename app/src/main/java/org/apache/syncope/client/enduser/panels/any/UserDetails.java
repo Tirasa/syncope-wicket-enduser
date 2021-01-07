@@ -52,7 +52,6 @@ public class UserDetails extends Details<UserTO> {
             final UserWrapper wrapper,
             final boolean templateMode,
             final boolean includeStatusPanel,
-            final boolean showPasswordManagement,
             final PageReference pageRef) {
         super(id, wrapper, templateMode, includeStatusPanel, pageRef);
 
@@ -84,14 +83,6 @@ public class UserDetails extends Details<UserTO> {
         ((AjaxDropDownChoicePanel<String>) realm).setChoices(
                 RealmRestClient.list().stream().map(RealmTO::getFullPath).collect(Collectors.toList()));
         add(realm);
-
-        // ------------------------
-        // Password
-        // ------------------------
-        EditUserPasswordPanel panel = new EditUserPasswordPanel("password", wrapper, templateMode);
-        panel.setEnabled(showPasswordManagement);
-
-        add(panel);
     }
 
     public static class EditUserPasswordPanel extends Panel {
