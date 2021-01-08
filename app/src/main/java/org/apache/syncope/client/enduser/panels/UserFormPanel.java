@@ -83,7 +83,6 @@ public class UserFormPanel extends AnyFormPanel<UserTO> implements UserForm {
                 UserWrapper.class.cast(modelObject),
                 false,
                 false,
-                UserFormLayoutInfo.class.cast(formLayoutInfo).isPasswordManagement(),
                 pageReference);
     }
 

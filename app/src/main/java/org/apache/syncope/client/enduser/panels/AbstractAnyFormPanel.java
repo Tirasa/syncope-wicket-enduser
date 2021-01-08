@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -16,6 +16,7 @@
 package org.apache.syncope.client.enduser.panels;
 
 import java.io.Serializable;
+import org.apache.syncope.client.enduser.pages.BasePage;
 import org.apache.wicket.PageReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -43,9 +44,15 @@ public abstract class AbstractAnyFormPanel<T extends Serializable> extends Abstr
             protected void onSubmit(final AjaxRequestTarget target) {
                 onFormSubmit(target);
             }
+
+            @Override
+            protected void onError(final AjaxRequestTarget target) {
+                ((BasePage) getPage()).getNotificationPanel().refresh(target);
+            }
         };
+
         submitButton.setOutputMarkupId(true);
-        submitButton.setDefaultFormProcessing(false);
+        submitButton.setDefaultFormProcessing(true);
         form.add(submitButton);
 
         Button cancel = new Button("cancel") {

@@ -31,6 +31,9 @@ public class SelfRegistration extends BasePage {
 
     public SelfRegistration(final PageParameters parameters) {
         super(parameters);
+        
+        setDomain(parameters);
+        disableSidebar();
 
         WebMarkupContainer content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);

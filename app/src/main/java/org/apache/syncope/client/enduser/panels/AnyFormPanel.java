@@ -78,7 +78,7 @@ public abstract class AnyFormPanel<A extends AnyTO> extends AbstractAnyFormPanel
         form.add(new CardPanel.Builder<Details<A>>()
                 .setName("details")
                 .setComponent(addOptionalDetailsPanel(modelObject))
-                .isVisible(formLayoutInfo.isPasswordManagement()).build("userDetailsPanelCard"));
+                .isVisible(formLayoutInfo.isDetailsManagement()).build("userDetailsPanelCard"));
 
         Groups groups = new Groups(Constants.CONTENT_PANEL, modelObject, false);
         setOutputMarkupId(true);

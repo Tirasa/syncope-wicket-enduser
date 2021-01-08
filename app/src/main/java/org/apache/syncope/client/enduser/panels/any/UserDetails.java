@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -52,7 +52,6 @@ public class UserDetails extends Details<UserTO> {
             final UserWrapper wrapper,
             final boolean templateMode,
             final boolean includeStatusPanel,
-            final boolean showPasswordManagement,
             final PageReference pageRef) {
         super(id, wrapper, templateMode, includeStatusPanel, pageRef);
 
@@ -84,7 +83,6 @@ public class UserDetails extends Details<UserTO> {
         ((AjaxDropDownChoicePanel<String>) realm).setChoices(
                 RealmRestClient.list().stream().map(RealmTO::getFullPath).collect(Collectors.toList()));
         add(realm);
-
     }
 
     public static class EditUserPasswordPanel extends Panel {
