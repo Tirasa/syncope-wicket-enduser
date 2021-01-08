@@ -52,7 +52,7 @@
 
   <ciManagement>
     <system>Travis CI</system>
-    <url>https://travis-ci.org/Tirasa/syncope-wicket-enduser</url>
+    <url>https://travis-ci.com/Tirasa/syncope-wicket-enduser</url>
   </ciManagement>
 
   <distributionManagement>
