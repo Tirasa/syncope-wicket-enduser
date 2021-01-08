@@ -146,7 +146,7 @@ public class SyncopeEnduserApplication extends AuthenticatedWebApplication {
                     Class<?> clazz = ClassUtils.getClass(props.getProperty(className));
                     if (BasePage.class.isAssignableFrom(clazz)) {
                         pageClasses.put(
-                                StringUtils.substringAfter("page.", className), (Class<? extends BasePage>) clazz);
+                                StringUtils.substringAfter(className, "page."), (Class<? extends BasePage>) clazz);
                     } else {
                         LOG.warn("{} does not extend {}, ignoring...", clazz.getName(), BasePage.class.getName());
                     }
@@ -368,12 +368,16 @@ public class SyncopeEnduserApplication extends AuthenticatedWebApplication {
                 && SyncopeEnduserSession.get().getSelfTO().isMustChangePassword()
                 ? MustChangePassword.class
                 : SyncopeEnduserSession.get().isAuthenticated()
-                ? Dashboard.class
+                ? getPageClass("profile", Dashboard.class)
                 : Login.class;
     }
 
     public Class<? extends BasePage> getPageClass(final String key) {
         return pageClasses.get(key);
+    }
+
+    public Class<? extends BasePage> getPageClass(final String key, final Class<? extends BasePage> defaultValue) {
+        return pageClasses.getOrDefault(key, defaultValue);
     }
 
     public String getAnonymousUser() {
@@ -450,7 +454,7 @@ public class SyncopeEnduserApplication extends AuthenticatedWebApplication {
     public Class<? extends Sidebar> getSidebar() {
         return sidebar;
     }
-    
+
     public String getAdminUser() {
         return adminUser;
     }

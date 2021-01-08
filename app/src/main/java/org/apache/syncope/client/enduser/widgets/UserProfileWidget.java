@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -24,7 +24,7 @@ public class UserProfileWidget extends BaseWidget {
 
     private static final long serialVersionUID = 4437711189800676363L;
 
-    protected final UserTO userTO;
+    protected UserTO userTO;
 
     public UserProfileWidget(final String id) {
         super(id);
@@ -43,7 +43,7 @@ public class UserProfileWidget extends BaseWidget {
         addExtFields(userProfile);
     }
 
-    public void addBaseFields(final WebMarkupContainer userProfile) {
+    protected void addBaseFields(final WebMarkupContainer userProfile) {
         Label username = new Label("username", userTO.getUsername());
         username.setOutputMarkupId(true);
         userProfile.add(username);
@@ -57,6 +57,6 @@ public class UserProfileWidget extends BaseWidget {
         userProfile.add(lastLoginDate);
     }
 
-    public void addExtFields(final WebMarkupContainer userProfile) {
+    protected void addExtFields(final WebMarkupContainer userProfile) {
     }
 }

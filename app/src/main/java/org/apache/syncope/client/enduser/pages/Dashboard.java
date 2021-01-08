@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -23,10 +23,12 @@ public class Dashboard extends BasePage {
 
     private static final long serialVersionUID = -1100228004207271270L;
 
+    protected final WebMarkupContainer content;
+
     public Dashboard(final PageParameters parameters) {
         super(parameters);
 
-        WebMarkupContainer content = new WebMarkupContainer("content");
+        content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);
 
         UserProfileWidget userProfileWidget = new UserProfileWidget("userProfileInfo");

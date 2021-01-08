@@ -18,6 +18,7 @@ package org.apache.syncope.client.enduser.panels;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.syncope.client.enduser.BookmarkablePageLinkBuilder;
+import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.enduser.pages.BasePage;
 import org.apache.syncope.client.enduser.pages.Dashboard;
@@ -120,7 +121,8 @@ public class Sidebar extends Panel {
     protected void buildBaseSidebar() {
         WebMarkupContainer liContainer = new WebMarkupContainer(getLIContainerId("home"));
         add(liContainer);
-        liContainer.add(BookmarkablePageLinkBuilder.build("home", Dashboard.class));
+        liContainer.add(BookmarkablePageLinkBuilder.build(
+                "home", SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class)));
 
         profileLIContainer = new WebMarkupContainer(getLIContainerId("profile"));
         add(profileLIContainer);

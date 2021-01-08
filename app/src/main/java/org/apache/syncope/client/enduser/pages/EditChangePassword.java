@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -15,6 +15,7 @@
  */
 package org.apache.syncope.client.enduser.pages;
 
+import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
@@ -28,7 +29,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class EditChangePassword extends ChangePassword {
 
     private static final long serialVersionUID = -537205681762708502L;
-    
+
     private final UserSelfRestClient userSelfRestClient = new UserSelfRestClient();
 
     public EditChangePassword(final PageParameters parameters) {
@@ -61,7 +62,9 @@ public class EditChangePassword extends ChangePassword {
             SyncopeEnduserSession.get().onException(e);
             notificationPanel.refresh(target);
         }
-        parameters.add(Constants.LANDING_PAGE, Dashboard.class.getName());
+        parameters.add(
+                Constants.LANDING_PAGE,
+                SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class).getName());
         setResponsePage(SelfResult.class, parameters);
     }
 
