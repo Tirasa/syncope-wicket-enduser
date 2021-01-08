@@ -78,7 +78,7 @@ public class Login extends WebPage {
 
     private final BookmarkablePageLink<Void> selfPwdReset;
 
-    private BookmarkablePageLink<Void> selfRegistration;
+    private final BookmarkablePageLink<Void> selfRegistration;
 
     public Login(final PageParameters parameters) {
         super(parameters);
@@ -134,8 +134,9 @@ public class Login extends WebPage {
         form.add(languageSelect.setOutputMarkupId(true));
 
         DomainDropDown domainSelect = new DomainDropDown("domain");
+        domainSelect.setOutputMarkupPlaceholderTag(true);
         if (SyncopeEnduserApplication.get().getDomains().size() == 1) {
-            domainSelect.setOutputMarkupPlaceholderTag(true);
+            domainSelect.setVisible(false);
         }
         domainSelect.add(new AjaxFormComponentUpdatingBehavior(Constants.ON_BLUR) {
 
@@ -214,9 +215,8 @@ public class Login extends WebPage {
 
         selfRegistration = new BookmarkablePageLink<>("self-registration", SelfRegistration.class);
         selfRegistration.getPageParameters().add("domain", SyncopeEnduserSession.get().getDomain());
-        if (!SyncopeEnduserSession.get().getPlatformInfo().isSelfRegAllowed()) {
-            selfRegistration.setVisible(false);
-        }
+        selfRegistration.setOutputMarkupPlaceholderTag(true);
+        selfRegistration.setVisible(SyncopeEnduserSession.get().getPlatformInfo().isSelfRegAllowed());
         add(selfRegistration.setOutputMarkupId(true));
     }
 
@@ -295,7 +295,7 @@ public class Login extends WebPage {
     /**
      * Inner class which implements (custom) Domain DropDownChoice component.
      */
-    public class DomainDropDown extends BootstrapSelect<String> {
+    private static class DomainDropDown extends BootstrapSelect<String> {
 
         private static final long serialVersionUID = -7401167913360133325L;
 
