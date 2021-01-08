@@ -18,6 +18,7 @@ package org.apache.syncope.client.enduser.panels;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.syncope.client.enduser.BookmarkablePageLinkBuilder;
+import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.enduser.pages.BasePage;
 import org.apache.syncope.client.enduser.pages.Dashboard;
 import org.apache.syncope.client.enduser.pages.EditChangePassword;
@@ -41,18 +42,20 @@ public class Sidebar extends Panel {
     private static final long serialVersionUID = 8091307811313529503L;
 
     private final List<WebMarkupContainer> navbarItems = new ArrayList<>();
-    
+
     protected WebMarkupContainer profileULContainer;
 
     protected WebMarkupContainer profileLIContainer;
 
-    public Sidebar(final String id,
+    public Sidebar(
+            final String id,
             final PageReference pageReference,
             final List<Class<? extends BasePage>> extPageClasses) {
+
         super(id);
 
         buildBaseSidebar();
-        
+
         RepeatingView listItems = new RepeatingView("listItems");
         add(listItems);
 
@@ -135,6 +138,8 @@ public class Sidebar extends Panel {
         liContainer = new WebMarkupContainer(getLIContainerId("editsecurityquestion"));
         profileULContainer.add(liContainer);
         liContainer.add(BookmarkablePageLinkBuilder.build("editsecurityquestion", EditSecurityQuestion.class));
+        liContainer.setOutputMarkupPlaceholderTag(true);
+        liContainer.setVisible(SyncopeEnduserSession.get().getPlatformInfo().isPwdResetRequiringSecurityQuestions());
     }
 
     protected String getLIContainerId(final String linkId) {

@@ -29,6 +29,7 @@ public class SelfUserDetails extends UserDetails {
             final boolean includeStatusPanel,
             final boolean showPasswordManagement,
             final PageReference pageRef) {
+
         super(id, wrapper, templateMode, includeStatusPanel, pageRef);
 
         // ------------------------
@@ -39,5 +40,4 @@ public class SelfUserDetails extends UserDetails {
 
         add(panel);
     }
-
 }

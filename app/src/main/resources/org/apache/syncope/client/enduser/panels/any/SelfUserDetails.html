@@ -17,15 +17,7 @@
 
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
-  <wicket:panel>
-    <div class="col-xs-12 details">
-      <div class="form-group">
-        <span wicket:id="destinationRealm">[DESTINATION REALM]</span>
-      </div>
-      <div class="form-group">
-        <span wicket:id="username"/>
-      </div>
-      <wicket:child/>
-    </div>
-  </wicket:panel>
+  <wicket:extend>
+    <div wicket:id="password"></div>
+  </wicket:extend>
 </html>
