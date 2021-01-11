@@ -132,8 +132,6 @@ public class SyncopeEnduserApplication extends AuthenticatedWebApplication {
 
     private Map<String, Class<? extends BasePage>> pageClasses;
 
-    private FileAlterationMonitor customFormLayoutMonitor;
-
     private UserFormLayoutInfo customFormLayout;
 
     @SuppressWarnings("unchecked")
@@ -299,7 +297,7 @@ public class SyncopeEnduserApplication extends AuthenticatedWebApplication {
                     : new FileAlterationObserver(getClass().getResource('/' + CUSTOM_FORM_LAYOUT_FILE).getFile(),
                             pathname -> StringUtils.contains(pathname.getPath(), CUSTOM_FORM_LAYOUT_FILE));
 
-            customFormLayoutMonitor = new FileAlterationMonitor(5000);
+            FileAlterationMonitor customFormLayoutMonitor = new FileAlterationMonitor(5000);
 
             FileAlterationListener listener = new FileAlterationListenerAdaptor() {
 

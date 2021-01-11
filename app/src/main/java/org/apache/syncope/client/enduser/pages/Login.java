@@ -31,7 +31,6 @@ import org.apache.syncope.client.enduser.init.EnduserInitializer;
 import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.StyledNotificationBehavior;
 import org.apache.syncope.client.ui.commons.panels.NotificationPanel;
-
 import org.apache.syncope.common.lib.SyncopeConstants;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -60,9 +59,9 @@ import org.slf4j.LoggerFactory;
 
 public class Login extends WebPage {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Login.class);
-
     private static final long serialVersionUID = 5889157642852559004L;
+
+    private static final Logger LOG = LoggerFactory.getLogger(Login.class);
 
     private final NotificationPanel notificationPanel;
 
