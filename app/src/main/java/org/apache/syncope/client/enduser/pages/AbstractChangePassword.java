@@ -27,8 +27,10 @@ public abstract class AbstractChangePassword extends BasePage {
 
     private static final long serialVersionUID = 5889157642852559004L;
 
+    private static final String CHANGE_PASSWORD = "page.changePassword";
+
     public AbstractChangePassword(final PageParameters parameters) {
-        super(parameters);
+        super(parameters, CHANGE_PASSWORD);
 
         WebMarkupContainer content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);

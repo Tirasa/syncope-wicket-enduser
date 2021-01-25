@@ -1356,3 +1356,10 @@ h4.card-title {
   }
 }
 
+.card-header-style {
+    font-weight: bold !important;
+    font-size: 18px;
+    color: white !important;
+    padding-top: 5px;
+}
+

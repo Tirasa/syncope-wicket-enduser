@@ -16,10 +16,10 @@
     limitations under the License.
 
 -->
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org"  wicket:message="lang:lang">
   <head>
     <meta charset="UTF-8"/>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
 
     <title>Apache Syncope Enduser</title>
 
@@ -48,11 +48,11 @@
       <span wicket:id="feedback"></span>
       <header class="main-header">
         <a href="#" class="logo logo-pos">
-          <span class="logo-mini"><img src="img/logo-mini.png"/></span>
-          <span class="logo-lg"><img src="img/logo.png"/></span>
+          <span class="logo-mini"><img aria-label="Apache Syncope Enduser" alt="Apache Syncope Enduser" src="img/logo-mini.png"/></span>
+          <span class="logo-lg"><img aria-label="Apache Syncope Enduser" alt="Apache Syncope Enduser" src="img/logo.png"/></span>
         </a>                
 
-        <nav class="navbar navbar-static-top" role="navigation">
+        <nav class="navbar navbar-static-top" aria-label="primary">
 
           <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" wicket:id="collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -60,12 +60,6 @@
 
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-
-              <!--          
-              <li class="dropdown tasks-menu" wicket:id="extAlertWidgets">
-                <span wicket:id="extAlertWidget"/>
-              </li>
-              -->
 
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -94,13 +88,16 @@
         </nav>
       </header>
 
-      <aside wicket:id="sidebar" class="main-sidebar">[SIDEBAR]</aside>
+      <aside wicket:id="sidebar" class="main-sidebar" aria-label="secondary">[SIDEBAR]</aside>
 
-      <div class="content-wrapper" wicket:id="contentWrapper">
+      <div class="content-wrapper" wicket:id="contentWrapper" role="main">
+        <section class="content-header">
+          <h1><span wicket:id="pageTitle"/></h1>
+        </section>
         <wicket:child/>
       </div>
 
-      <footer class="main-footer" wicket:id="footer">
+      <footer class="main-footer" wicket:id="footer" role="contentinfo">
         <strong>Copyright &copy; 2010&#45;<span id="spanYear"></span> 
           <a href="http://www.apache.org/" target="_blank" rel="noopener noreferrer">The Apache Software Foundation</a>.</strong>
         All rights reserved.

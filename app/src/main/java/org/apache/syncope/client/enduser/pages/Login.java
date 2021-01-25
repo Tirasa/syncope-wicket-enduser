@@ -210,6 +210,8 @@ public class Login extends WebPage {
 
         selfPwdReset = new BookmarkablePageLink<>("self-pwd-reset", SelfPasswordReset.class);
         selfPwdReset.getPageParameters().add("domain", SyncopeEnduserSession.get().getDomain());
+        selfPwdReset.setOutputMarkupPlaceholderTag(true);
+        selfPwdReset.setVisible(SyncopeEnduserSession.get().getPlatformInfo().isPwdResetAllowed());
         add(selfPwdReset.setOutputMarkupId(true));
 
         selfRegistration = new BookmarkablePageLink<>("self-registration", SelfRegistration.class);

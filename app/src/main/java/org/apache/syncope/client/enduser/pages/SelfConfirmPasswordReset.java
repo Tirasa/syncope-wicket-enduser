@@ -37,9 +37,11 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class SelfConfirmPasswordReset extends BasePage {
 
     private static final long serialVersionUID = -2166782304542750726L;
+    
+    private static final String CONFIRM_PASSWORD_RESET = "confirmPasswordReset";
 
     public SelfConfirmPasswordReset(final PageParameters parameters) {
-        super(parameters);
+        super(parameters, CONFIRM_PASSWORD_RESET);
 
         setDomain(parameters);
         disableSidebar();

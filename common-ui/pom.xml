@@ -99,38 +99,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
-
-      <plugin>
-        <groupId>nl.geodienstencentrum.maven</groupId>
-        <artifactId>sass-maven-plugin</artifactId>
-        <version>3.7.2</version>
-        <inherited>true</inherited>
-        <executions>
-          <execution>
-            <id>sass-compilation</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>update-stylesheets</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <resources>
-            <resource>
-              <source>
-                <directory>${basedir}/src/main/resources/META-INF/resources/ui-commons/css</directory>
-              </source>
-              <destination>${project.build.outputDirectory}/META-INF/resources/ui-commons/css</destination>
-            </resource>
-            <resource>
-              <source>
-                <directory>${basedir}/src/main/resources/META-INF/resources/ui-commons/css/accessibility</directory>
-              </source>
-              <destination>${project.build.outputDirectory}/META-INF/resources/ui-commons/css/accessibility</destination>
-            </resource>
-          </resources>
-        </configuration>
-      </plugin>
     </plugins>
 
     <resources>

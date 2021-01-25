@@ -45,6 +45,8 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class EditSecurityQuestion extends BasePage {
 
     private static final long serialVersionUID = -537205681762708502L;
+    
+    private static final String EDIT_SECURITY_QUESTION = "page.editSecurityQuestion";
 
     private final UserSelfRestClient userSelfRestClient = new UserSelfRestClient();
 
@@ -55,8 +57,8 @@ public class EditSecurityQuestion extends BasePage {
     private final UserTO userTO;
 
     public EditSecurityQuestion(final PageParameters parameters) {
-        super(parameters);
-
+        super(parameters, EDIT_SECURITY_QUESTION);
+        
         userTO = SyncopeEnduserSession.get().getSelfTO(true);
 
         WebMarkupContainer content = new WebMarkupContainer("content");

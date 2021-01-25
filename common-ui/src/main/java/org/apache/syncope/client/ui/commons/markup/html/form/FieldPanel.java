@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -127,6 +127,16 @@ public abstract class FieldPanel<T extends Serializable> extends AbstractFieldPa
         return this;
     }
 
+    public FieldPanel<T> setInputTitle(final String title) {
+        field.add(new AttributeModifier("title", title));
+        return this;
+    }
+    
+    public FieldPanel<T> setFormComponentId(final String id) {
+        field.setMarkupId(id);
+        return this;
+    }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public FieldPanel<T> setNewModel(final AttributableTO attributableTO, final String schema) {
         field.setModel(new Model() {
@@ -148,7 +158,7 @@ public abstract class FieldPanel<T extends Serializable> extends AbstractFieldPa
                 }
             }
         });
-        
+
         return this;
     }
 

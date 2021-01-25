@@ -28,9 +28,11 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class SelfRegistration extends BasePage {
 
     private static final long serialVersionUID = -1100228004207271270L;
+    
+    private static final String SELF_REGISTRATION = "page.selfRegistration";
 
     public SelfRegistration(final PageParameters parameters) {
-        super(parameters);
+        super(parameters, SELF_REGISTRATION);
         
         setDomain(parameters);
         disableSidebar();

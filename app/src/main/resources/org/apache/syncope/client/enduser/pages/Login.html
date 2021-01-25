@@ -29,13 +29,14 @@
     <link href="webjars/font-awesome/${font-awesome.version}/css/${font-awesome.filename}" rel="stylesheet" type="text/css" />
     <link href="webjars/ionicons/${ionicons.version}/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <link href="css/fonts.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="js/accessibility.js"></script>
 
     <link href="css/login.css" rel="stylesheet" type="text/css" />
     <link href="css/syncopeEnduser.css" rel="stylesheet" type="text/css" />
 
     <!-- accessibility -->
     <link href="css/accessibility.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="js/accessibility.js"></script>
+    
   </head>
 
   <body class="login-body">
@@ -60,12 +61,6 @@
 
         <form class="form-signin" wicket:id="login">
           <fieldset class="form-group">
-            <input type="text" wicket:id="username" class="form-control" 
-                   wicket:message="placeholder:username" required="required" autofocus="autofocus" />
-
-            <input type="password" wicket:id="password" class="form-control" 
-                   wicket:message="placeholder:password" required="required" />
-
             <fieldset class="input-group">
               <select wicket:id="language"/>
             </fieldset>

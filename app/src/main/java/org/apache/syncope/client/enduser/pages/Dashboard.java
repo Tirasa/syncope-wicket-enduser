@@ -23,10 +23,12 @@ public class Dashboard extends BasePage {
 
     private static final long serialVersionUID = -1100228004207271270L;
 
+    protected static final String HOME = "home";
+
     protected final WebMarkupContainer content;
 
     public Dashboard(final PageParameters parameters) {
-        super(parameters);
+        super(parameters, HOME);
 
         content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);

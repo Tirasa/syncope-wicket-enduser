@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -28,15 +28,17 @@ public class EditUser extends BasePage {
 
     private static final long serialVersionUID = -1100228004207271270L;
 
-    public EditUser(final PageParameters parameters) {
-        super(parameters);
+    private static final String EDIT_USER = "page.edituser";
 
+    public EditUser(final PageParameters parameters) {
+        super(parameters, EDIT_USER);
+        
         WebMarkupContainer content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);
         contentWrapper.add(content);
 
         UserTO userTO = SyncopeEnduserSession.get().getSelfTO(true);
-        
+
         UserFormPanel editUserPanel = new UserFormPanel(
                 "editUserPanel",
                 userTO,

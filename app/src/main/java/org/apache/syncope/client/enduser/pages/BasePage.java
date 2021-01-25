@@ -43,6 +43,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class BasePage extends BaseWebPage {
@@ -60,10 +61,10 @@ public class BasePage extends BaseWebPage {
     protected final AjaxLink<Void> collapse;
 
     public BasePage() {
-        this(null);
+        this(null, null);
     }
 
-    public BasePage(final PageParameters parameters) {
+    public BasePage(final PageParameters parameters, final String name) {
         super(parameters);
 
         ClassPathScanImplementationLookup lookup = (ClassPathScanImplementationLookup) SyncopeEnduserApplication.get().
@@ -99,6 +100,9 @@ public class BasePage extends BaseWebPage {
         contentWrapper = new WebMarkupContainer("contentWrapper");
         contentWrapper.setOutputMarkupPlaceholderTag(true);
         body.add(contentWrapper);
+
+        //pageTitle
+        addPageTitle(name);
 
         // footer
         footer = new WebMarkupContainer("footer");
@@ -149,6 +153,10 @@ public class BasePage extends BaseWebPage {
                 }
             });
         }
+    }
+
+    protected void addPageTitle(final String title) {
+        contentWrapper.addOrReplace(new Label(Constants.PAGE_TITLE, new ResourceModel(title, title)));
     }
 
     protected void disableSidebar() {

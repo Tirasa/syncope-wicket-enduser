@@ -59,6 +59,8 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class Flowable extends BasePage {
 
     private static final long serialVersionUID = -8781434495150074529L;
+    
+    private static final String USER_REQUESTS = "page.userRequests";
 
     private final int rowsPerPage = 5;
 
@@ -69,7 +71,7 @@ public class Flowable extends BasePage {
     private final DataView<UserRequest> urDataView;
 
     public Flowable(final PageParameters parameters) {
-        super(parameters);
+        super(parameters, USER_REQUESTS);
 
         container = new WebMarkupContainer("content");
         container.setOutputMarkupId(true);

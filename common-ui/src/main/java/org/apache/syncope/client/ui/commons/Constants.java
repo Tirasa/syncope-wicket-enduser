@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -125,10 +125,12 @@ public final class Constants {
     public static final String BASE_PACKAGE = "org.apache.syncope.client.enduser.pages.";
 
     public static final String CONTENT_PANEL = "contentPanel";
-    
+
     public static final String SELF_ALLOWED = "selfRegistration.allowed";
 
     public static final String USER_REQUEST_ERROR = "user_request_error";
+
+    public static final String PAGE_TITLE = "pageTitle";
 
     public static Component getJEXLPopover(final Component caller, final TooltipConfig.Placement placement) {
         return getJEXLPopover(caller, placement, caller.getString("jexl_ex1"), caller.getString("jexl_ex2"));

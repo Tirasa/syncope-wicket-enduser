@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -28,9 +28,11 @@ public class SelfResult extends BasePage {
 
     private static final long serialVersionUID = 3804053409052140145L;
 
+    private static final String RESULT_PAGE = "page.resultPage";
+
     @SuppressWarnings("unchecked")
     public SelfResult(final PageParameters parameters) {
-        super(parameters);
+        super(parameters, RESULT_PAGE);
         
         WebMarkupContainer content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);

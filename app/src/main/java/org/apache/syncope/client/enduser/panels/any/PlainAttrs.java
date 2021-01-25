@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.enduser.layout.CustomizationOption;
 import org.apache.syncope.client.enduser.markup.html.form.BinaryFieldPanel;
 import org.apache.syncope.client.enduser.markup.html.form.MultiFieldPanel;
@@ -52,10 +53,12 @@ import org.apache.syncope.common.lib.to.PlainSchemaTO;
 import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.syncope.common.lib.types.AttrSchemaType;
 import org.apache.syncope.common.lib.types.SchemaType;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.PageReference;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -355,6 +358,13 @@ public class PlainAttrs extends AbstractAttrs<PlainSchemaTO> {
 
         panel.setReadOnly(readOnly);
         panel.setMarkupId(StringUtils.isBlank(groupName) ? schemaTO.getKey() : groupName + '.' + schemaTO.getKey());
+        panel.setInputTitle(schemaTO.getLabel(SyncopeEnduserSession.get().getLocale()));
+
+        panel.setFormComponentId("form_" + (StringUtils.isBlank(groupName) ? schemaTO.getKey() : groupName + '.'
+                + schemaTO.getKey()));
+        Label label = (Label) panel.get(AbstractFieldPanel.LABEL);
+        label.add(new AttributeModifier("for", "form_"
+                + (StringUtils.isBlank(groupName) ? schemaTO.getKey() : groupName + '.' + schemaTO.getKey())));
 
         return panel;
     }

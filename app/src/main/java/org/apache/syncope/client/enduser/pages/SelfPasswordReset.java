@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -24,10 +24,12 @@ public class SelfPasswordReset extends BasePage {
 
     private static final long serialVersionUID = 164651008547631054L;
 
+    private static final String SELF_PWD_RESET = "page.selfPwdReset";
+
     private final SelfPwdResetPanel pwdResetPanel;
 
     public SelfPasswordReset(final PageParameters parameters) {
-        super(parameters);
+        super(parameters, SELF_PWD_RESET);
 
         setDomain(parameters);
         disableSidebar();
