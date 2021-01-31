@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -17,17 +17,24 @@ package org.apache.syncope.client.enduser.panels;
 
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.password.strength.PasswordStrengthBehavior;
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.password.strength.PasswordStrengthConfig;
+import org.apache.syncope.client.ui.commons.markup.html.form.AbstractFieldPanel;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
 import org.apache.syncope.client.ui.commons.panels.NotificationPanel;
 import org.apache.syncope.common.lib.to.UserTO;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.core.util.string.CssUtils;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.StatelessForm;
 import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.util.string.AppendingStringBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,13 +44,51 @@ public abstract class ChangePasswordPanel extends Panel {
 
     private static final long serialVersionUID = -8937593602426944714L;
 
+    private static final String FORM_SUFFIX = "form_";
+
     protected final AjaxPasswordFieldPanel passwordField;
 
     protected final AjaxPasswordFieldPanel confirmPasswordField;
 
     public ChangePasswordPanel(final String id, final NotificationPanel notificationPanel) {
         super(id);
-        final StatelessForm<Void> form = new StatelessForm<>("changePassword");
+        final StatelessForm<Void> form = new StatelessForm<Void>("changePassword") {
+
+            protected void appendDefaultButtonField() {
+                AppendingStringBuffer buffer = new AppendingStringBuffer();
+
+                String cssClass = getString(CssUtils.key(Form.class, "hidden-fields"));
+
+                // div that is not visible (but not display:none either)
+                buffer.append(String.format(
+                        "<div style=\"width:0px;height:0px;position:absolute;"
+                                + "left:-100px;top:-100px;overflow:hidden\" class=\"%s\">",
+                        cssClass));
+
+                // add an empty textfield (otherwise IE doesn't work)
+                buffer.append("<input title=\"text_hidden\" "
+                        + "aria-label=\"text_hidden\" type=\"text\" "
+                        + "tabindex=\"-1\" autocomplete=\"off\"/>");
+
+                // add the submitting component
+                final Component submittingComponent = (Component) getDefaultButton();
+                buffer.append("<input title=\"submit_hidden\" aria-label=\"submit_hidden\" "
+                        + "type=\"submit\" tabindex=\"-1\" name=\"");
+                buffer.append(getDefaultButton().getInputName());
+                buffer.append("\" onclick=\" var b=document.getElementById('");
+                buffer.append(submittingComponent.getMarkupId());
+                buffer.append(
+                        "'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') "
+                                + "{  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } "
+                                + "else { b.click(); };  return false;\" ");
+                buffer.append(" />");
+
+                // close div
+                buffer.append("</div>");
+
+                getResponse().write(buffer);
+            }
+        };
         form.setOutputMarkupId(true);
         add(form);
 
@@ -61,13 +106,25 @@ public abstract class ChangePasswordPanel extends Panel {
         passwordField.setMarkupId("password");
         passwordField.setPlaceholder("password");
 
+        passwordField.setInputTitle(getString("password"));
+        passwordField.setFormComponentId("form_password");
+        Label passwordLabel = (Label) passwordField.get(AbstractFieldPanel.LABEL);
+        passwordLabel.add(new AttributeModifier("for", FORM_SUFFIX + "password"));
+
         ((PasswordTextField) passwordField.getField()).setResetPassword(true);
         form.add(passwordField);
 
-        confirmPasswordField = new AjaxPasswordFieldPanel("confirmPassword", "confirmPassword", new Model<>());
+        confirmPasswordField = new AjaxPasswordFieldPanel("confirmPassword",
+                getString("confirmPassword"), new Model<>());
         confirmPasswordField.setRequired(true);
         confirmPasswordField.setMarkupId("confirmPassword");
         confirmPasswordField.setPlaceholder("confirmPassword");
+
+        confirmPasswordField.setInputTitle(getString("confirmPassword"));
+        confirmPasswordField.setFormComponentId(FORM_SUFFIX + "confirmPassword");
+        Label confirmPasswordLabel = (Label) confirmPasswordField.get(AbstractFieldPanel.LABEL);
+        confirmPasswordLabel.add(new AttributeModifier("for", FORM_SUFFIX + "confirmPassword"));
+
         ((PasswordTextField) confirmPasswordField.getField()).setResetPassword(true);
         form.add(confirmPasswordField);
 

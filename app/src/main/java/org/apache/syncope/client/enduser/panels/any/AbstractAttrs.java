@@ -46,6 +46,8 @@ import org.apache.wicket.model.util.ListModel;
 public abstract class AbstractAttrs<S extends SchemaTO> extends Panel {
 
     private static final long serialVersionUID = -5387344116983102292L;
+    
+    protected static final String FORM_SUFFIX = "form_";
 
     protected final Comparator<AttrTO> attrComparator = new AttrComparator();
 

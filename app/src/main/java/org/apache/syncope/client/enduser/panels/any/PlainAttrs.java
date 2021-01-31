@@ -360,10 +360,10 @@ public class PlainAttrs extends AbstractAttrs<PlainSchemaTO> {
         panel.setMarkupId(StringUtils.isBlank(groupName) ? schemaTO.getKey() : groupName + '.' + schemaTO.getKey());
         panel.setInputTitle(schemaTO.getLabel(SyncopeEnduserSession.get().getLocale()));
 
-        panel.setFormComponentId("form_" + (StringUtils.isBlank(groupName) ? schemaTO.getKey() : groupName + '.'
+        panel.setFormComponentId(FORM_SUFFIX + (StringUtils.isBlank(groupName) ? schemaTO.getKey() : groupName + '.'
                 + schemaTO.getKey()));
         Label label = (Label) panel.get(AbstractFieldPanel.LABEL);
-        label.add(new AttributeModifier("for", "form_"
+        label.add(new AttributeModifier("for", FORM_SUFFIX
                 + (StringUtils.isBlank(groupName) ? schemaTO.getKey() : groupName + '.' + schemaTO.getKey())));
 
         return panel;

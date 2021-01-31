@@ -61,27 +61,10 @@
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
 
-              <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                  <span class="hidden-xs"><label wicket:id="username"/></span>
+              <li class="dropdown messages-menu">
+                <a href="#" wicket:id="logout">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>
                 </a>
-                <ul class="dropdown-menu">
-                  <li class="user-header">
-                    <div class="row">
-                      <div class="col-xs-12 text-right">
-                        <wicket:message key="domain"/>: <label wicket:id="domain"/>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="user-footer">
-                    <div class="pull-left">
-                    </div>
-                    <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat" wicket:id="logout"><wicket:message key="logout"/></a>
-                    </div>
-                  </li>
-                </ul>
               </li>
             </ul>
           </div>

@@ -18,7 +18,6 @@ package org.apache.syncope.client.enduser.pages;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.enduser.init.ClassPathScanImplementationLookup;
@@ -75,10 +74,6 @@ public class BasePage extends BaseWebPage {
             body.add(new AttributeAppender("class", " sidebar-collapse"));
         }
 
-        // header, footer
-        body.add(new Label("username", SyncopeEnduserSession.get().isAuthenticated()
-                ? SyncopeEnduserSession.get().getSelfTO().getUsername() : StringUtils.EMPTY));
-
         // sidebar
         Class<? extends Sidebar> clazz = SyncopeEnduserApplication.get().getSidebar();
 
@@ -125,9 +120,7 @@ public class BasePage extends BaseWebPage {
 
         collapse.setOutputMarkupPlaceholderTag(true);
         body.add(collapse);
-
-        body.add(new Label("domain", BaseSession.class.cast(Session.get()).getDomain()));
-
+        
         @SuppressWarnings("unchecked")
         final Class<? extends WebPage> beforeLogout = (Class<? extends WebPage>) Session.get().
                 getAttribute(Constants.BEFORE_LOGOUT_PAGE);
