@@ -35,7 +35,13 @@ public abstract class AbstractChangePassword extends BasePage {
         WebMarkupContainer content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);
         contentWrapper.add(content);
+        
+        ChangePasswordPanel changePasswordPanel = getPasswordPanel();
+        content.add(changePasswordPanel);
+        content.add(new AttributeModifier("style", "height: \"100%\""));
+    }
 
+    protected ChangePasswordPanel getPasswordPanel() {
         ChangePasswordPanel changePasswordPanel = new ChangePasswordPanel("changePasswordPanel", notificationPanel) {
 
             private static final long serialVersionUID = 5195544218030499386L;
@@ -54,11 +60,10 @@ public abstract class AbstractChangePassword extends BasePage {
             protected UserTO getLoggedUser() {
                 return getPwdLoggedUser();
             }
-        };
+            };
 
         changePasswordPanel.setOutputMarkupId(true);
-        content.add(changePasswordPanel);
-        content.add(new AttributeModifier("style", "height: \"100%\""));
+        return changePasswordPanel;
     }
 
     protected abstract void doPwdSubmit(AjaxRequestTarget target, AjaxPasswordFieldPanel passwordField);

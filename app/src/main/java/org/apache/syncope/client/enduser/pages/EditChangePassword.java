@@ -26,7 +26,7 @@ import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class EditChangePassword extends ChangePassword {
+public class EditChangePassword extends AbstractChangePassword {
 
     private static final long serialVersionUID = -537205681762708502L;
 
@@ -35,7 +35,7 @@ public class EditChangePassword extends ChangePassword {
     public EditChangePassword(final PageParameters parameters) {
         super(parameters);
     }
-
+    
     @Override
     protected void doPwdSubmit(final AjaxRequestTarget target, final AjaxPasswordFieldPanel passwordField) {
         final PageParameters parameters = new PageParameters();

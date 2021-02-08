@@ -44,15 +44,19 @@ public abstract class ChangePasswordPanel extends Panel {
 
     private static final long serialVersionUID = -8937593602426944714L;
 
-    private static final String FORM_SUFFIX = "form_";
+    protected static final String FORM_SUFFIX = "form_";
 
-    protected final AjaxPasswordFieldPanel passwordField;
+    protected StatelessForm<Void> form;
 
-    protected final AjaxPasswordFieldPanel confirmPasswordField;
+    protected AjaxPasswordFieldPanel passwordField;
+
+    protected AjaxPasswordFieldPanel confirmPasswordField;
 
     public ChangePasswordPanel(final String id, final NotificationPanel notificationPanel) {
         super(id);
-        final StatelessForm<Void> form = new StatelessForm<Void>("changePassword") {
+        form = new StatelessForm<Void>("changePassword") {
+
+            private static final long serialVersionUID = 418292023846536149L;
 
             protected void appendDefaultButtonField() {
                 AppendingStringBuffer buffer = new AppendingStringBuffer();
@@ -62,7 +66,7 @@ public abstract class ChangePasswordPanel extends Panel {
                 // div that is not visible (but not display:none either)
                 buffer.append(String.format(
                         "<div style=\"width:0px;height:0px;position:absolute;"
-                                + "left:-100px;top:-100px;overflow:hidden\" class=\"%s\">",
+                        + "left:-100px;top:-100px;overflow:hidden\" class=\"%s\">",
                         cssClass));
 
                 // add an empty textfield (otherwise IE doesn't work)
@@ -79,8 +83,8 @@ public abstract class ChangePasswordPanel extends Panel {
                 buffer.append(submittingComponent.getMarkupId());
                 buffer.append(
                         "'); if (b!=null&amp;&amp;b.onclick!=null&amp;&amp;typeof(b.onclick) != 'undefined') "
-                                + "{  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } "
-                                + "else { b.click(); };  return false;\" ");
+                        + "{  var r = Wicket.bind(b.onclick, b)(); if (r != false) b.click(); } "
+                        + "else { b.click(); };  return false;\" ");
                 buffer.append(" />");
 
                 // close div
@@ -159,6 +163,10 @@ public abstract class ChangePasswordPanel extends Panel {
         cancel.setOutputMarkupId(true);
         cancel.setDefaultFormProcessing(false);
         form.add(cancel);
+    }
+
+    public StatelessForm<Void> getForm() {
+        return form;
     }
 
     public AjaxPasswordFieldPanel getPasswordField() {

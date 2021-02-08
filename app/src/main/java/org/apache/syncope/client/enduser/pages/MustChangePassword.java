@@ -23,7 +23,7 @@ import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class MustChangePassword extends ChangePassword {
+public class MustChangePassword extends AbstractChangePassword {
 
     private static final long serialVersionUID = 8581970794722709800L;
 
