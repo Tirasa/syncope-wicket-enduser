@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- *
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -44,6 +44,7 @@ public class MustChangePassword extends AbstractChangePassword {
             parameters.add(Constants.STATUS, Constants.OPERATION_SUCCEEDED);
             parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.pwd.change.success"));
             parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.pwd.change.success"));
+
             SyncopeEnduserSession.get().success(getString(Constants.OPERATION_SUCCEEDED));
         } catch (Exception e) {
             LOG.error("While changing password for {}",
@@ -52,8 +53,8 @@ public class MustChangePassword extends AbstractChangePassword {
             parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.pwd.change.error"));
             parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.pwd.change.error.msg"));
             SyncopeEnduserSession.get().onException(e);
+            notificationPanel.refresh(target);
         }
-        notificationPanel.refresh(target);
         setResponsePage(SelfResult.class, parameters);
     }
 
@@ -66,6 +67,8 @@ public class MustChangePassword extends AbstractChangePassword {
     protected void doPwdCancel() {
         SyncopeEnduserSession.get().invalidate();
         final PageParameters parameters = new PageParameters();
+        parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.pwd.change.success"));
+        parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.pwd.change.success"));
         setResponsePage(getApplication().getHomePage(), parameters);
     }
 }

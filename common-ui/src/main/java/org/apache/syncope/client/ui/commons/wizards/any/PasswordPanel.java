@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- *
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -35,16 +35,14 @@ public class PasswordPanel extends Panel {
     public PasswordPanel(
             final String id,
             final UserWrapper wrapper,
-            final Boolean storePasswordInSyncope,
             final boolean templateMode) {
-        this(id, wrapper, templateMode, storePasswordInSyncope, null);
+        this(id, wrapper, templateMode, null);
     }
 
     public PasswordPanel(
             final String id,
             final UserWrapper wrapper,
             final boolean templateMode,
-            final Boolean storePasswordInSyncope,
             final PasswordStrengthBehavior passwordStrengthBehavior) {
 
         super(id);
@@ -87,16 +85,16 @@ public class PasswordPanel extends Panel {
             form.add(new EqualPasswordInputValidator(passwordField.getField(), confirmPasswordField.getField()));
         }
 
-        AjaxCheckBoxPanel storePasswordInSyncopePanel = new AjaxCheckBoxPanel("storePasswordInSyncope",
+        AjaxCheckBoxPanel storePasswordInSyncope = new AjaxCheckBoxPanel("storePasswordInSyncope",
                 "storePasswordInSyncope", new PropertyModel<>(wrapper, "storePasswordInSyncope"));
-        storePasswordInSyncopePanel.getField().setLabel(new ResourceModel("storePasswordInSyncope"));
-        storePasswordInSyncopePanel.setOutputMarkupId(true);
-        storePasswordInSyncopePanel.setOutputMarkupPlaceholderTag(true);
-        if (storePasswordInSyncope) {
-            storePasswordInSyncopePanel.getField().setDefaultModelObject(Boolean.TRUE);
+        storePasswordInSyncope.getField().setLabel(new ResourceModel("storePasswordInSyncope"));
+        storePasswordInSyncope.setOutputMarkupId(true);
+        storePasswordInSyncope.setOutputMarkupPlaceholderTag(true);
+        if (wrapper.getInnerObject().getKey() == null) {
+            storePasswordInSyncope.getField().setDefaultModelObject(Boolean.TRUE);
         } else {
-            storePasswordInSyncopePanel.setVisible(false);
+            storePasswordInSyncope.setVisible(false);
         }
-        form.add(storePasswordInSyncopePanel);
+        form.add(storePasswordInSyncope);
     }
 }
