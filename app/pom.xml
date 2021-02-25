@@ -33,6 +33,7 @@
  
   <properties>
     <rootpom.basedir>${basedir}/..</rootpom.basedir>
+    <conf.directory>${project.build.directory}/test-classes</conf.directory>
   </properties>
   
   <dependencies>
@@ -243,9 +244,9 @@
         <skipTests>true</skipTests>
         <packaging.type>war</packaging.type>
         
-        <secretKey>pwdunifi12345678</secretKey>
-        <anonymousKey>pwdunifi12345678</anonymousKey>
-        <jwsKey>pwdunifi12345678</jwsKey>
+        <secretKey>43s65erd76ft8g8ui9j</secretKey>
+        <anonymousKey>anonymousKey</anonymousKey>
+        <jwsKey>s4365d7f8g9hj9</jwsKey>
       </properties>
 
       <dependencies>
@@ -317,8 +318,8 @@
                   <java.security.egd>file:/dev/./urandom</java.security.egd>
                   <java.util.secureRandomSeed>true</java.util.secureRandomSeed>
                   
-                  <javax.net.ssl.trustStore>/home/marco/Work/UniFi/IAM/fit/src/main/resources/keystore</javax.net.ssl.trustStore>
-                  <javax.net.ssl.trustStorePassword>keyst0r3</javax.net.ssl.trustStorePassword>
+                  <javax.net.ssl.trustStore>${basedir}/src/test/resources/keystore</javax.net.ssl.trustStore>
+                  <javax.net.ssl.trustStorePassword>password</javax.net.ssl.trustStorePassword>
                   
                 </systemProperties>
               </container>
@@ -332,9 +333,9 @@
                   <!--<cargo.tomcat.connector.clientAuth>optional</cargo.tomcat.connector.clientAuth>-->
                   <cargo.tomcat.connector.sslProtocol>TLS</cargo.tomcat.connector.sslProtocol>
 
-                  <cargo.tomcat.connector.keystoreFile>/home/marco/Work/UniFi/IAM/fit/src/main/resources/keystore</cargo.tomcat.connector.keystoreFile>
-                  <cargo.tomcat.connector.keystorePass>keyst0r3</cargo.tomcat.connector.keystorePass>
-                  <cargo.tomcat.connector.keyAlias>Tomcat</cargo.tomcat.connector.keyAlias>
+                  <cargo.tomcat.connector.keystoreFile>${basedir}/src/test/resources/keystore</cargo.tomcat.connector.keystoreFile>
+                  <cargo.tomcat.connector.keystorePass>password</cargo.tomcat.connector.keystorePass>
+                  <cargo.tomcat.connector.keyAlias>tomcat</cargo.tomcat.connector.keyAlias>
 
                   <cargo.tomcat.httpSecure>true</cargo.tomcat.httpSecure>
                   <cargo.jvmargs>

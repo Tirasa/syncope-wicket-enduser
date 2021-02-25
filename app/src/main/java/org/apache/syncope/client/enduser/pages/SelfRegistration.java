@@ -28,7 +28,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 public class SelfRegistration extends BasePage {
 
     private static final long serialVersionUID = -1100228004207271270L;
-    
+
     private static final String SELF_REGISTRATION = "page.selfRegistration";
 
     public SelfRegistration(final PageParameters parameters) {
@@ -43,8 +43,8 @@ public class SelfRegistration extends BasePage {
 
         UserSelfFormPanel selfRegistrationPanel = new UserSelfFormPanel(
                 "selfRegistrationPanel",
-                buildNewUserTO(),
-                buildNewUserTO(),
+                buildNewUserTO(parameters),
+                buildNewUserTO(parameters),
                 SyncopeEnduserSession.get().getService(SyncopeService.class).platform().getUserClasses(),
                 buildFormLayout(),
                 getPageReference());
@@ -57,8 +57,16 @@ public class SelfRegistration extends BasePage {
         return customlayoutInfo != null ? customlayoutInfo : new UserFormLayoutInfo();
     }
 
-    private static UserTO buildNewUserTO() {
+    private static UserTO buildNewUserTO(final PageParameters parameters) {
         UserTO userTO = new UserTO();
+
+        if (parameters != null) {
+            if (!parameters.get("saml2SPUserAttrs").isNull()) {
+                SyncopeEnduserApplication.extractAttrsFromExt(parameters.get("saml2SPUserAttrs").toString(), userTO);
+            } else if (!parameters.get("oidcClientUserAttrs").isNull()) {
+                SyncopeEnduserApplication.extractAttrsFromExt(parameters.get("oidcClientUserAttrs").toString(), userTO);
+            }
+        }
         userTO.setRealm(SyncopeConstants.ROOT_REALM);
         return userTO;
     }

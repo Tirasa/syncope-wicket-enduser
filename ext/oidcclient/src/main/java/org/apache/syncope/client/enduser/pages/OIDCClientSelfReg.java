@@ -15,21 +15,32 @@
  */
 package org.apache.syncope.client.enduser.pages;
 
+import org.apache.syncope.ext.oidcclient.agent.Constants;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OIDCClientSelfReg extends WebPage {
 
     private static final long serialVersionUID = 864538706654644353L;
 
-    private static final String OIDC_ACCESS_ERROR =
-            "OpenID Connect error - Admin Console does not support Self Registration";
+    private static final Logger LOG = LoggerFactory.getLogger(OIDCClientSelfReg.class);
+
+    private static final String OIDC_ACCESS_ERROR = "OpenID Connect error - while getting user attributes";
 
     public OIDCClientSelfReg(final PageParameters parameters) {
         super(parameters);
-
         PageParameters params = new PageParameters();
-        params.add("errorMessage", OIDC_ACCESS_ERROR);
-        setResponsePage(Login.class, params);
+        try {
+            params.add("oidcClientUserAttrs", ((ServletWebRequest) getRequest()).getContainerRequest().
+                    getSession().getAttribute(Constants.OIDCCLIENT_USER_ATTRS));
+        } catch (Exception e) {
+            LOG.error("While extracting user attributes", e);
+
+            params.add("errorMessage", OIDC_ACCESS_ERROR);
+        }
+        setResponsePage(SelfRegistration.class, params);
     }
 }
