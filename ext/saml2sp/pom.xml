@@ -21,8 +21,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-	    <groupId>net.tirasa.syncope.wicket-enduser</groupId>
-  <artifactId>syncope-wicket-enduser-ext</artifactId>
+    <groupId>net.tirasa.syncope.wicket-enduser</groupId>
+    <artifactId>syncope-wicket-enduser-ext</artifactId>
     <version>2.1.8-SNAPSHOT</version>
   </parent>
 
