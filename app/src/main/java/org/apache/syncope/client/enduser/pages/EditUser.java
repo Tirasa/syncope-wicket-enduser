@@ -30,10 +30,12 @@ public class EditUser extends BasePage {
 
     private static final String EDIT_USER = "page.edituser";
 
+    protected WebMarkupContainer content;
+
     public EditUser(final PageParameters parameters) {
         super(parameters, EDIT_USER);
-        
-        WebMarkupContainer content = new WebMarkupContainer("content");
+
+        content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);
         contentWrapper.add(content);
 
@@ -50,7 +52,7 @@ public class EditUser extends BasePage {
         content.add(editUserPanel);
     }
 
-    private UserFormLayoutInfo buildFormLayout() {
+    protected UserFormLayoutInfo buildFormLayout() {
         UserFormLayoutInfo customlayoutInfo = SyncopeEnduserApplication.get().getCustomFormLayout();
         return customlayoutInfo != null ? customlayoutInfo : new UserFormLayoutInfo();
     }
