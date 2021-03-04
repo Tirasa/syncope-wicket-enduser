@@ -66,6 +66,41 @@
     </repository>
   </distributionManagement>
 
+  <developers>
+    <developer>
+      <id>ilgrosso</id>
+      <email>ilgrosso@apache.org</email>
+      <name>Francesco Chicchiriccò</name>
+      <organization>Tirasa</organization>
+      <organizationUrl>http://www.tirasa.net/</organizationUrl>
+      <url>https://home.apache.org/~ilgrosso/</url>
+    </developer>
+    <developer>
+      <id>mdisabatino</id>
+      <email>mdisabatino@apache.org</email>
+      <name>Marco Di Sabatino Di Diodoro</name>
+      <organization>Tirasa</organization>
+      <organizationUrl>http://www.tirasa.net/</organizationUrl>
+      <url>https://home.apache.org/~mdisabatino/</url>
+    </developer>
+    <developer>
+      <id>loredicola</id>
+      <email>loredicola@apache.org</email>
+      <name>Lorenzo Di Cola</name>
+      <organization>Tirasa</organization>
+      <organizationUrl>http://www.tirasa.net/</organizationUrl>
+      <url>https://home.apache.org/~andreapatricelli/</url>
+    </developer>
+    <developer>
+      <id>andreapatricelli</id>
+      <email>andreapatricelli@apache.org</email>
+      <name>Andrea Patricelli</name>
+      <organization>Tirasa</organization>
+      <organizationUrl>http://www.tirasa.net/</organizationUrl>
+      <url>https://home.apache.org/~andreapatricelli/</url>
+    </developer>
+  </developers>
+
   <properties>
     <syncope.version>2.1.8</syncope.version>
 
