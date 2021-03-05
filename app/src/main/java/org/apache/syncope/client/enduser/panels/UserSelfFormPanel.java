@@ -18,8 +18,6 @@
  */
 package org.apache.syncope.client.enduser.panels;
 
-import static org.apache.syncope.client.enduser.panels.AbstractFormPanel.LOG;
-
 import java.util.List;
 import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;

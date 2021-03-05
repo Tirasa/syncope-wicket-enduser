@@ -15,9 +15,6 @@
  */
 package org.apache.syncope.client.enduser.rest;
 
-import static org.apache.syncope.client.enduser.rest.BaseRestClient.LOG;
-import static org.apache.syncope.client.enduser.rest.BaseRestClient.getService;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.syncope.common.lib.SyncopeClientException;
 import org.apache.syncope.common.lib.to.AttrTO;

@@ -15,9 +15,6 @@
  */
 package org.apache.syncope.client.enduser.rest;
 
-import static org.apache.syncope.client.enduser.rest.BaseRestClient.getService;
-import static org.apache.syncope.client.enduser.rest.BaseRestClient.resetClient;
-
 import javax.ws.rs.core.GenericType;
 import org.apache.syncope.common.lib.patch.UserPatch;
 import org.apache.syncope.common.lib.to.ProvisioningResult;
