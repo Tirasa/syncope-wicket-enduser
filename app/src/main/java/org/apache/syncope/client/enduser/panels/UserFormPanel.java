@@ -100,8 +100,8 @@ public class UserFormPanel extends AnyFormPanel<UserTO> implements UserForm {
             ProvisioningResult<UserTO> result;
             PageParameters parameters = new PageParameters();
             try {
-                AnyWrapper<UserTO> updatetedWarapper = form.getModelObject();
-                UserTO userTO = updatetedWarapper.getInnerObject();
+                AnyWrapper<UserTO> updatedWrapper = form.getModelObject();
+                UserTO userTO = updatedWrapper.getInnerObject();
 
                 fixPlainAndVirAttrs(userTO, getOriginalItem().getInnerObject());
                 UserPatch patch = AnyOperations.diff(userTO, getOriginalItem().getInnerObject(), false);

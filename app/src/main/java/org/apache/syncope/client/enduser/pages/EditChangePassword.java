@@ -35,7 +35,7 @@ public class EditChangePassword extends AbstractChangePassword {
     public EditChangePassword(final PageParameters parameters) {
         super(parameters);
     }
-    
+
     @Override
     protected void doPwdSubmit(final AjaxRequestTarget target, final AjaxPasswordFieldPanel passwordField) {
         final PageParameters parameters = new PageParameters();
@@ -60,9 +60,6 @@ public class EditChangePassword extends AbstractChangePassword {
         } catch (Exception e) {
             LOG.error("While changing password for {}",
                     SyncopeEnduserSession.get().getSelfTO().getUsername(), e);
-            parameters.add(Constants.STATUS, Constants.OPERATION_SUCCEEDED);
-            parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.pwd.change.error"));
-            parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.pwd.change.error.msg"));
             SyncopeEnduserSession.get().onException(e);
             notificationPanel.refresh(target);
         }
