@@ -19,17 +19,9 @@
 
   <appenders>
 
-    <RollingRandomAccessFile name="main" fileName="${log.directory}/enduser.log"
-                             filePattern="${log.directory}/enduser-%d{yyyy-MM-dd}.log.gz"
-                             immediateFlush="false" append="true">
-      <PatternLayout>
-        <pattern>%d %-5level %logger - %msg%n</pattern>
-      </PatternLayout>
-      <Policies>
-        <TimeBasedTriggeringPolicy/>
-        <SizeBasedTriggeringPolicy size="250 MB"/>
-      </Policies>
-    </RollingRandomAccessFile>
+    <Console name="main" target="SYSTEM_OUT">
+      <PatternLayout pattern="%5p [%c] %m%n"/>
+    </Console>
     
   </appenders>
 
@@ -46,6 +38,7 @@
     <asyncLogger name="org.apache.syncope.client.ui.commons" additivity="false" level="INFO">
       <appender-ref ref="main"/>
     </asyncLogger>
+
 
     <asyncLogger name="org.apache.wicket" additivity="false" level="ERROR">
       <appender-ref ref="main"/>

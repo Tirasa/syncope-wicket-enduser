@@ -99,8 +99,8 @@ public class UserDetails extends Details<UserTO> {
             add(new PasswordPanel(
                     "passwordPanel",
                     wrapper,
-                    wrapper.getInnerObject().getKey() == null,
                     templateMode,
+                    wrapper.getInnerObject().getKey() == null,
                     new PasswordStrengthBehavior(new PasswordStrengthConfig().
                             withDebug(false).
                             withShowVerdictsInsideProgressBar(true).

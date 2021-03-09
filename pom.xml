@@ -457,5 +457,6 @@
     <module>common-ui</module>
     <module>app</module>
     <module>ext</module>
+    <module>docker</module>
   </modules> 
 </project>

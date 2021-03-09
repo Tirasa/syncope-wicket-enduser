@@ -31,3 +31,4 @@ licenseheader.txt
 /ext/oidcclient/target/
 /target/
 /ext/target/
+/docker/target/
