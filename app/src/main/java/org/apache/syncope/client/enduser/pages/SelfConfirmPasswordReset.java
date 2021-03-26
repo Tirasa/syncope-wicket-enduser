@@ -92,7 +92,6 @@ public class SelfConfirmPasswordReset extends BasePage {
                     params.add(Constants.STATUS, Constants.OPERATION_SUCCEEDED);
                     params.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.confirm.pwd.reset.success"));
                     params.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.confirm.pwd.reset.success.msg"));
-                    SyncopeEnduserSession.get().success(getString(Constants.OPERATION_SUCCEEDED));
                     parameters.add(Constants.LANDING_PAGE, Login.class.getName());
                     setResponsePage(SelfResult.class, params);
                 } catch (SyncopeClientException sce) {

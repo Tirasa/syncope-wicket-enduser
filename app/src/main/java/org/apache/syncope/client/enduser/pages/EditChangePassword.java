@@ -52,7 +52,6 @@ public class EditChangePassword extends AbstractChangePassword {
             parameters.add(Constants.STATUS, Constants.OPERATION_SUCCEEDED);
             parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.pwd.change.success.msg"));
             parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.pwd.change.success"));
-            SyncopeEnduserSession.get().success(getString(Constants.OPERATION_SUCCEEDED));
             parameters.add(
                     Constants.LANDING_PAGE,
                     SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class).getName());

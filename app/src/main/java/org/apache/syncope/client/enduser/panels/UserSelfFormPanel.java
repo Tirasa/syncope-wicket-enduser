@@ -101,8 +101,6 @@ public class UserSelfFormPanel extends UserFormPanel {
                 parameters.add(Constants.STATUS, Constants.ERROR);
                 parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.profile.change.error"));
                 parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.profile.change.error.msg"));
-                SyncopeEnduserSession.get().onException(sce);
-                ((BasePage) pageReference.getPage()).getNotificationPanel().refresh(target);
             }
             parameters.add(Constants.LANDING_PAGE, Login.class);
             setResponsePage(SelfResult.class, parameters);
