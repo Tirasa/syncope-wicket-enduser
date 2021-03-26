@@ -146,7 +146,6 @@ public class EditSecurityQuestion extends BasePage {
                                 getString("self.securityquestion.change.success"));
                         parameters.add(Constants.NOTIFICATION_MSG_PARAM,
                                 getString("self.securityquestion.change.success.msg"));
-                        SyncopeEnduserSession.get().success(getString(Constants.OPERATION_SUCCEEDED));
                     } catch (Exception e) {
                         LOG.error("While changing password for {}",
                                 SyncopeEnduserSession.get().getSelfTO().getUsername(), e);
@@ -155,8 +154,6 @@ public class EditSecurityQuestion extends BasePage {
                                 getString("self.securityquestion.change.error"));
                         parameters.add(Constants.NOTIFICATION_MSG_PARAM,
                                 getString("self.securityquestion.change.error.msg"));
-                        SyncopeEnduserSession.get().onException(e);
-                        notificationPanel.refresh(target);
                     }
                     parameters.add(
                             Constants.LANDING_PAGE,
