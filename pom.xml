@@ -51,8 +51,8 @@
   </issueManagement>
 
   <ciManagement>
-    <system>Travis CI</system>
-    <url>https://travis-ci.com/Tirasa/syncope-wicket-enduser</url>
+    <system>GitHub Workflow</system>
+    <url>https://github.com/Tirasa/syncope-wicket-enduser/actions</url>
   </ciManagement>
 
   <distributionManagement>
