@@ -87,10 +87,7 @@ public class SelfPasswordReset extends BasePage {
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {
                 boolean checked = true;
-                if (SyncopeEnduserApplication.get().isCaptchaEnabled()) {
-                    checked = captcha.check();
-                }
-                if (!checked) {
+                if (SyncopeEnduserApplication.get().isCaptchaEnabled() && !captcha.check()) {
                     SyncopeEnduserSession.get().error(getString(Constants.CAPTCHA_ERROR));
                     SelfPasswordReset.this.getNotificationPanel().refresh(target);
                 } else {

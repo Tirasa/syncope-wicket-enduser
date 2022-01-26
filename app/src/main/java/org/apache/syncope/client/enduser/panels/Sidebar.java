@@ -15,8 +15,6 @@
  */
 package org.apache.syncope.client.enduser.panels;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.syncope.client.enduser.BookmarkablePageLinkBuilder;
 import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
@@ -37,6 +35,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sidebar extends Panel {
 
@@ -128,20 +128,30 @@ public class Sidebar extends Panel {
         add(profileLIContainer);
         profileULContainer = new WebMarkupContainer(getULContainerId("profile"));
         profileLIContainer.add(profileULContainer);
+        profileLIContainer.setVisible(SyncopeEnduserApplication.get().getCustomFormLayout().getSidebarLayout().
+                isEditUserEnabled()
+                || SyncopeEnduserApplication.get().getCustomFormLayout().getSidebarLayout().
+                        isPasswordManagementEnabled()
+                || (SyncopeEnduserApplication.get().getCustomFormLayout().getSidebarLayout().
+                        isSecurityQuestionManagementEnabled()
+                && SyncopeEnduserSession.get().getPlatformInfo().isPwdResetRequiringSecurityQuestions()));
 
-        liContainer = new WebMarkupContainer(getLIContainerId("edituser"));
-        profileULContainer.add(liContainer);
-        liContainer.add(BookmarkablePageLinkBuilder.build("edituser", EditUser.class));
+        profileULContainer.add(new WebMarkupContainer(getLIContainerId("edituser"))
+                .add(BookmarkablePageLinkBuilder.build("edituser", EditUser.class))
+                .setVisible(SyncopeEnduserApplication.get().getCustomFormLayout().getSidebarLayout()
+                        .isEditUserEnabled()));
 
-        liContainer = new WebMarkupContainer(getLIContainerId("editchangepassword"));
-        profileULContainer.add(liContainer);
-        liContainer.add(BookmarkablePageLinkBuilder.build("editchangepassword", EditChangePassword.class));
+        profileULContainer.add(new WebMarkupContainer(getLIContainerId("editchangepassword"))
+                .add(BookmarkablePageLinkBuilder.build("editchangepassword", EditChangePassword.class))
+                .setVisible(SyncopeEnduserApplication.get().getCustomFormLayout().getSidebarLayout().
+                        isPasswordManagementEnabled()));
 
-        liContainer = new WebMarkupContainer(getLIContainerId("editsecurityquestion"));
-        profileULContainer.add(liContainer);
-        liContainer.add(BookmarkablePageLinkBuilder.build("editsecurityquestion", EditSecurityQuestion.class));
-        liContainer.setOutputMarkupPlaceholderTag(true);
-        liContainer.setVisible(SyncopeEnduserSession.get().getPlatformInfo().isPwdResetRequiringSecurityQuestions());
+        profileULContainer.add(new WebMarkupContainer(getLIContainerId("editsecurityquestion"))
+                .add(BookmarkablePageLinkBuilder.build("editsecurityquestion", EditSecurityQuestion.class))
+                .setOutputMarkupPlaceholderTag(true)
+                .setVisible(SyncopeEnduserApplication.get().getCustomFormLayout().getSidebarLayout().
+                        isSecurityQuestionManagementEnabled()
+                        && SyncopeEnduserSession.get().getPlatformInfo().isPwdResetRequiringSecurityQuestions()));
     }
 
     protected String getLIContainerId(final String linkId) {
