@@ -15,12 +15,12 @@
  */
 package org.apache.syncope.client.enduser.layout;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.apache.syncope.client.enduser.panels.UserFormPanel;
 import org.apache.syncope.client.ui.commons.layout.AbstractAnyFormBaseLayout;
-import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.syncope.client.ui.commons.layout.UserForm;
+import org.apache.syncope.common.lib.to.UserTO;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserFormLayoutInfo extends AbstractAnyFormBaseLayout<UserTO, UserForm> {
 
@@ -35,6 +35,12 @@ public class UserFormLayoutInfo extends AbstractAnyFormBaseLayout<UserTO, UserFo
     private boolean passwordManagement = true;
 
     private boolean detailsManagement = true;
+
+    private final SidebarLayout sidebarLayout;
+
+    public UserFormLayoutInfo() {
+        sidebarLayout = new SidebarLayout();
+    }
 
     public Map<String, CustomizationOption> getWhichPlainAttrs() {
         return whichPlainAttrs;
@@ -68,4 +74,9 @@ public class UserFormLayoutInfo extends AbstractAnyFormBaseLayout<UserTO, UserFo
     public void setDetailsManagement(final boolean detailsManagement) {
         this.detailsManagement = detailsManagement;
     }
+
+    public SidebarLayout getSidebarLayout() {
+        return sidebarLayout;
+    }
+
 }

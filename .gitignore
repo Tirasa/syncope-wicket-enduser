@@ -32,3 +32,6 @@ licenseheader.txt
 /target/
 /ext/target/
 /docker/target/
+
+*.iml
+.idea

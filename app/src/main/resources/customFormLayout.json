@@ -1,14 +1,20 @@
-{ 
+{
   "formClass": "org.apache.syncope.client.enduser.panels.UserFormPanel",
-  "auxClasses": true,
-  "groups": true,
+  "auxClasses": false,
+  "groups": false,
   "plainAttrs": true,
-  "derAttrs": true,
-  "virAttrs": true,
-  "resources": true,
+  "derAttrs": false,
+  "virAttrs": false,
+  "resources": false,
   "whichPlainAttrs": {},
   "whichDerAttrs": {},
   "whichVirAttrs": {},
-  "passwordManagement": true,
-  "detailsManagement": true
+  "passwordManagement": false,
+  "detailsManagement": false,
+  "sidebarLayout": {
+    "editUserEnabled": false,
+    "passwordManagementEnabled": false,
+    "securityQuestionManagementEnabled": false
+  }
 }
+
