@@ -16,6 +16,7 @@
 package org.apache.syncope.client.enduser.panels;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.enduser.layout.UserFormLayoutInfo;
@@ -31,8 +32,10 @@ import org.apache.syncope.client.ui.commons.wizards.any.UserWrapper;
 import org.apache.syncope.common.lib.AnyOperations;
 import org.apache.syncope.common.lib.SyncopeClientException;
 import org.apache.syncope.common.lib.patch.UserPatch;
+import org.apache.syncope.common.lib.to.PropagationStatus;
 import org.apache.syncope.common.lib.to.ProvisioningResult;
 import org.apache.syncope.common.lib.to.UserTO;
+import org.apache.syncope.common.lib.types.ExecStatus;
 import org.apache.wicket.PageReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -114,14 +117,17 @@ public class UserFormPanel extends AnyFormPanel<UserTO> implements UserForm {
                     result = userSelfRestClient.update(getOriginalItem().getInnerObject().getETagValue(), patch);
                     LOG.debug("User {} has been modified", result.getEntity().getUsername());
                 }
+                List<PropagationStatus> failingPropagations =
+                        result.getPropagationStatuses().stream().filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
+                                .collect(Collectors.toList());
                 parameters.add(Constants.STATUS,
-                        result.getPropagationStatuses().isEmpty()
+                        failingPropagations.isEmpty()
                                 ? Constants.OPERATION_SUCCEEDED
                                 : Constants.OPERATION_ERROR);
-                parameters.add(Constants.NOTIFICATION_TITLE_PARAM, result.getPropagationStatuses().isEmpty()
+                parameters.add(Constants.NOTIFICATION_TITLE_PARAM, failingPropagations.isEmpty()
                         ? getString("self.profile.change.success")
                         : getString("self.profile.change.error"));
-                parameters.add(Constants.NOTIFICATION_MSG_PARAM, result.getPropagationStatuses().isEmpty()
+                parameters.add(Constants.NOTIFICATION_MSG_PARAM, failingPropagations.isEmpty()
                         ? getString("self.profile.change.success.msg")
                         : getString("self.profile.change.error.msg"));
             } catch (SyncopeClientException sce) {

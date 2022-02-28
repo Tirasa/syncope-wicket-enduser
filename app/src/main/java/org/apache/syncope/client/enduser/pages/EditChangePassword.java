@@ -22,10 +22,14 @@ import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
 import org.apache.syncope.common.lib.patch.PasswordPatch;
 import org.apache.syncope.common.lib.patch.UserPatch;
+import org.apache.syncope.common.lib.to.PropagationStatus;
 import org.apache.syncope.common.lib.to.ProvisioningResult;
 import org.apache.syncope.common.lib.to.UserTO;
+import org.apache.syncope.common.lib.types.ExecStatus;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EditChangePassword extends AbstractChangePassword {
 
@@ -50,16 +54,20 @@ public class EditChangePassword extends AbstractChangePassword {
             userPatch.setPassword(passwordPatch);
             ProvisioningResult<UserTO> result = userSelfRestClient.update(userTO.getETagValue(), userPatch);
 
+            List<PropagationStatus> failingPropagations =
+                    result.getPropagationStatuses().stream().filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
+                            .collect(Collectors.toList());
+
             parameters.add(Constants.STATUS,
-                    result.getPropagationStatuses().isEmpty()
+                    failingPropagations.isEmpty()
                             ? Constants.OPERATION_SUCCEEDED
                             : Constants.OPERATION_ERROR);
             parameters.add(Constants.NOTIFICATION_TITLE_PARAM,
-                    result.getPropagationStatuses().isEmpty()
+                    failingPropagations.isEmpty()
                             ? getString("self.pwd.change.success.msg")
                             : getString("self.pwd.change.error.msg"));
             parameters.add(Constants.NOTIFICATION_MSG_PARAM,
-                    result.getPropagationStatuses().isEmpty()
+                    failingPropagations.isEmpty()
                             ? getString("self.pwd.change.success")
                             : getString("self.pwd.change.error"));
             parameters.add(Constants.LANDING_PAGE,
