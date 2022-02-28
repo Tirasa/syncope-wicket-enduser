@@ -115,8 +115,9 @@ public class UserFormPanel extends AnyFormPanel<UserTO> implements UserForm {
                     LOG.debug("User {} has been modified", result.getEntity().getUsername());
                 }
                 parameters.add(Constants.STATUS,
-                        result.getPropagationStatuses().isEmpty() ? Constants.OPERATION_SUCCEEDED :
-                                Constants.OPERATION_ERROR);
+                        result.getPropagationStatuses().isEmpty()
+                                ? Constants.OPERATION_SUCCEEDED
+                                : Constants.OPERATION_ERROR);
                 parameters.add(Constants.NOTIFICATION_TITLE_PARAM, result.getPropagationStatuses().isEmpty()
                         ? getString("self.profile.change.success")
                         : getString("self.profile.change.error"));
