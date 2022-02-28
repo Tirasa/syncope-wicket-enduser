@@ -33,7 +33,7 @@ public class SelfResult extends BasePage {
     @SuppressWarnings("unchecked")
     public SelfResult(final PageParameters parameters) {
         super(parameters, RESULT_PAGE);
-        
+
         WebMarkupContainer content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);
         contentWrapper.add(content);

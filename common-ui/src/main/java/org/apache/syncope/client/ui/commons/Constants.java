@@ -111,6 +111,8 @@ public final class Constants {
     public static final String NOTIFICATION_TITLE_PARAM = "notificationTitle";
 
     public static final String NOTIFICATION_MSG_PARAM = "notificationMessage";
+    
+    public static final String PROPAGATION_FAILURES_PARAM = "propagationFailures";
 
     public static final String NOTIFICATION_LEVEL_PARAM = "notificationLevel";
 

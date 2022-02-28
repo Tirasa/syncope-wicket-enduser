@@ -17,11 +17,12 @@ package org.apache.syncope.client.enduser.pages;
 
 import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
+import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
 import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
-import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
 import org.apache.syncope.common.lib.patch.PasswordPatch;
 import org.apache.syncope.common.lib.patch.UserPatch;
+import org.apache.syncope.common.lib.to.ProvisioningResult;
 import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -47,13 +48,17 @@ public class EditChangePassword extends AbstractChangePassword {
             UserPatch userPatch = new UserPatch();
             userPatch.setKey(getPwdLoggedUser().getKey());
             userPatch.setPassword(passwordPatch);
-            userSelfRestClient.update(userTO.getETagValue(), userPatch);
+            ProvisioningResult<UserTO> result = userSelfRestClient.update(userTO.getETagValue(), userPatch);
 
-            parameters.add(Constants.STATUS, Constants.OPERATION_SUCCEEDED);
-            parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.pwd.change.success.msg"));
-            parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.pwd.change.success"));
-            parameters.add(
-                    Constants.LANDING_PAGE,
+            parameters.add(Constants.STATUS,
+                    result.getPropagationStatuses().isEmpty() ? Constants.OPERATION_SUCCEEDED : Constants.OPERATION_ERROR);
+            parameters.add(Constants.NOTIFICATION_TITLE_PARAM,
+                    result.getPropagationStatuses().isEmpty() ? getString("self.pwd.change.success.msg") :
+                            getString("self.pwd.change.error.msg"));
+            parameters.add(Constants.NOTIFICATION_MSG_PARAM,
+                    result.getPropagationStatuses().isEmpty() ? getString("self.pwd.change.success") :
+                            getString("self.pwd.change.error"));
+            parameters.add(Constants.LANDING_PAGE,
                     SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class).getName());
             setResponsePage(SelfResult.class, parameters);
         } catch (Exception e) {
