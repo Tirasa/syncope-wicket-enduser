@@ -115,13 +115,14 @@ public class UserFormPanel extends AnyFormPanel<UserTO> implements UserForm {
                     LOG.debug("User {} has been modified", result.getEntity().getUsername());
                 }
                 parameters.add(Constants.STATUS,
-                        result.getPropagationStatuses().isEmpty() ? Constants.OPERATION_SUCCEEDED : Constants.OPERATION_ERROR);
-                parameters.add(Constants.NOTIFICATION_TITLE_PARAM, result.getPropagationStatuses().isEmpty() 
+                        result.getPropagationStatuses().isEmpty() ? Constants.OPERATION_SUCCEEDED :
+                                Constants.OPERATION_ERROR);
+                parameters.add(Constants.NOTIFICATION_TITLE_PARAM, result.getPropagationStatuses().isEmpty()
                         ? getString("self.profile.change.success")
                         : getString("self.profile.change.error"));
-                parameters.add(Constants.NOTIFICATION_MSG_PARAM, result.getPropagationStatuses().isEmpty()  
+                parameters.add(Constants.NOTIFICATION_MSG_PARAM, result.getPropagationStatuses().isEmpty()
                         ? getString("self.profile.change.success.msg")
-                        :  getString("self.profile.change.error.msg"));
+                        : getString("self.profile.change.error.msg"));
             } catch (SyncopeClientException sce) {
                 parameters.add(Constants.STATUS, Constants.ERROR);
                 parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.profile.change.error"));

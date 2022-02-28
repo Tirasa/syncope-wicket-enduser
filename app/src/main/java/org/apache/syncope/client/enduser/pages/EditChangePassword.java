@@ -51,10 +51,13 @@ public class EditChangePassword extends AbstractChangePassword {
             ProvisioningResult<UserTO> result = userSelfRestClient.update(userTO.getETagValue(), userPatch);
 
             parameters.add(Constants.STATUS,
-                    result.getPropagationStatuses().isEmpty() ? Constants.OPERATION_SUCCEEDED : Constants.OPERATION_ERROR);
+                    result.getPropagationStatuses().isEmpty()
+                            ? Constants.OPERATION_SUCCEEDED
+                            : Constants.OPERATION_ERROR);
             parameters.add(Constants.NOTIFICATION_TITLE_PARAM,
-                    result.getPropagationStatuses().isEmpty() ? getString("self.pwd.change.success.msg") :
-                            getString("self.pwd.change.error.msg"));
+                    result.getPropagationStatuses().isEmpty()
+                            ? getString("self.pwd.change.success.msg")
+                            : getString("self.pwd.change.error.msg"));
             parameters.add(Constants.NOTIFICATION_MSG_PARAM,
                     result.getPropagationStatuses().isEmpty() ? getString("self.pwd.change.success") :
                             getString("self.pwd.change.error"));
