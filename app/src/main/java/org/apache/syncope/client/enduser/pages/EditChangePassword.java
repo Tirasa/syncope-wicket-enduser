@@ -15,20 +15,17 @@
  */
 package org.apache.syncope.client.enduser.pages;
 
-import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
+import org.apache.syncope.client.enduser.commons.PageParametersUtils;
 import org.apache.syncope.client.enduser.commons.RESTUtils;
 import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
-import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
 import org.apache.syncope.common.lib.patch.PasswordPatch;
 import org.apache.syncope.common.lib.patch.UserPatch;
-import org.apache.syncope.common.lib.to.PropagationStatus;
 import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.syncope.common.lib.types.ExecStatus;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class EditChangePassword extends AbstractChangePassword {
@@ -51,27 +48,13 @@ public class EditChangePassword extends AbstractChangePassword {
             UserPatch userPatch = new UserPatch();
             userPatch.setKey(getPwdLoggedUser().getKey());
             userPatch.setPassword(passwordPatch);
-
-            List<PropagationStatus> failingPropagations =
-                    RESTUtils.update(userPatch, userTO.getETagValue())
-                            .getPropagationStatuses().stream().filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
-                            .collect(Collectors.toList());
-            final PageParameters parameters = new PageParameters();
-            parameters.add(Constants.STATUS,
-                    failingPropagations.isEmpty()
-                            ? Constants.OPERATION_SUCCEEDED
-                            : Constants.OPERATION_ERROR);
-            parameters.add(Constants.NOTIFICATION_TITLE_PARAM,
-                    failingPropagations.isEmpty()
-                            ? getString("self.pwd.change.success.msg")
-                            : getString("self.pwd.change.error.msg"));
-            parameters.add(Constants.NOTIFICATION_MSG_PARAM,
-                    failingPropagations.isEmpty()
-                            ? getString("self.pwd.change.success")
-                            : getString("self.pwd.change.error"));
-            parameters.add(Constants.LANDING_PAGE,
-                    SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class).getName());
-            setResponsePage(SelfResult.class, parameters);
+            // update and set page paramters according to provisioning result
+            setResponsePage(SelfResult.class,
+                    PageParametersUtils.managePageParams(EditChangePassword.this, "pwd.change",
+                            RESTUtils.update(userPatch, userTO.getETagValue())
+                                    .getPropagationStatuses().stream()
+                                    .filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
+                                    .collect(Collectors.toList())));
         } catch (Exception e) {
             LOG.error("While changing password for {}",
                     SyncopeEnduserSession.get().getSelfTO().getUsername(), e);
