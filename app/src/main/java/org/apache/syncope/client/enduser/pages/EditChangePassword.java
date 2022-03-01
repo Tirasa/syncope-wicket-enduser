@@ -15,16 +15,18 @@
  */
 package org.apache.syncope.client.enduser.pages;
 
-import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
-import org.apache.syncope.client.ui.commons.Constants;
-import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
+import org.apache.syncope.client.enduser.commons.PageParametersUtils;
+import org.apache.syncope.client.enduser.commons.RESTUtils;
 import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
+import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
 import org.apache.syncope.common.lib.patch.PasswordPatch;
 import org.apache.syncope.common.lib.patch.UserPatch;
 import org.apache.syncope.common.lib.to.UserTO;
+import org.apache.syncope.common.lib.types.ExecStatus;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import java.util.stream.Collectors;
 
 public class EditChangePassword extends AbstractChangePassword {
 
@@ -38,7 +40,6 @@ public class EditChangePassword extends AbstractChangePassword {
 
     @Override
     protected void doPwdSubmit(final AjaxRequestTarget target, final AjaxPasswordFieldPanel passwordField) {
-        final PageParameters parameters = new PageParameters();
         try {
             UserTO userTO = getPwdLoggedUser();
             PasswordPatch passwordPatch = new PasswordPatch.Builder().
@@ -47,15 +48,13 @@ public class EditChangePassword extends AbstractChangePassword {
             UserPatch userPatch = new UserPatch();
             userPatch.setKey(getPwdLoggedUser().getKey());
             userPatch.setPassword(passwordPatch);
-            userSelfRestClient.update(userTO.getETagValue(), userPatch);
-
-            parameters.add(Constants.STATUS, Constants.OPERATION_SUCCEEDED);
-            parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.pwd.change.success.msg"));
-            parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.pwd.change.success"));
-            parameters.add(
-                    Constants.LANDING_PAGE,
-                    SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class).getName());
-            setResponsePage(SelfResult.class, parameters);
+            // update and set page paramters according to provisioning result
+            setResponsePage(SelfResult.class,
+                    PageParametersUtils.managePageParams(EditChangePassword.this, "pwd.change",
+                            RESTUtils.update(userPatch, userTO.getETagValue())
+                                    .getPropagationStatuses().stream()
+                                    .filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
+                                    .collect(Collectors.toList())));
         } catch (Exception e) {
             LOG.error("While changing password for {}",
                     SyncopeEnduserSession.get().getSelfTO().getUsername(), e);

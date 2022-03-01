@@ -15,14 +15,13 @@
  */
 package org.apache.syncope.client.enduser.pages;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
+import org.apache.syncope.client.enduser.commons.PageParametersUtils;
+import org.apache.syncope.client.enduser.commons.RESTUtils;
 import org.apache.syncope.client.enduser.rest.SecurityQuestionRestClient;
-import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
+import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxDropDownChoicePanel;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxTextFieldPanel;
 import org.apache.syncope.client.ui.commons.markup.html.form.FieldPanel;
@@ -41,11 +40,14 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EditSecurityQuestion extends BasePage {
 
     private static final long serialVersionUID = -537205681762708502L;
-    
+
     private static final String EDIT_SECURITY_QUESTION = "page.editSecurityQuestion";
 
     private final UserSelfRestClient userSelfRestClient = new UserSelfRestClient();
@@ -58,7 +60,7 @@ public class EditSecurityQuestion extends BasePage {
 
     public EditSecurityQuestion(final PageParameters parameters) {
         super(parameters, EDIT_SECURITY_QUESTION);
-        
+
         userTO = SyncopeEnduserSession.get().getSelfTO(true);
 
         WebMarkupContainer content = new WebMarkupContainer("content");
@@ -80,26 +82,26 @@ public class EditSecurityQuestion extends BasePage {
         ((AjaxDropDownChoicePanel<String>) securityQuestion).setChoiceRenderer(
                 new IChoiceRenderer<String>() {
 
-            private static final long serialVersionUID = -4421146737845000747L;
+                    private static final long serialVersionUID = -4421146737845000747L;
 
-            @Override
-            public Object getDisplayValue(final String value) {
-                return securityQuestions.stream().filter(sq -> value.equals(sq.getKey()))
-                        .map(SecurityQuestionTO::getContent).findFirst().orElse(null);
-            }
+                    @Override
+                    public Object getDisplayValue(final String value) {
+                        return securityQuestions.stream().filter(sq -> value.equals(sq.getKey()))
+                                .map(SecurityQuestionTO::getContent).findFirst().orElse(null);
+                    }
 
-            @Override
-            public String getIdValue(final String value, final int index) {
-                return value;
-            }
+                    @Override
+                    public String getIdValue(final String value, final int index) {
+                        return value;
+                    }
 
-            @Override
-            public String getObject(
-                    final String id,
-                    final IModel<? extends List<? extends String>> choices) {
-                return id;
-            }
-        });
+                    @Override
+                    public String getObject(
+                            final String id,
+                            final IModel<? extends List<? extends String>> choices) {
+                        return id;
+                    }
+                });
 
         securityQuestion.add(new AjaxEventBehavior(Constants.ON_CHANGE) {
 
@@ -130,8 +132,6 @@ public class EditSecurityQuestion extends BasePage {
                     SyncopeEnduserSession.get().error(getString(Constants.CAPTCHA_ERROR));
                     ((BasePage) getPageReference().getPage()).getNotificationPanel().refresh(target);
                 } else {
-
-                    final PageParameters parameters = new PageParameters();
                     try {
 
                         UserPatch userPatch = new UserPatch();
@@ -139,26 +139,18 @@ public class EditSecurityQuestion extends BasePage {
                                 new StringReplacePatchItem.Builder().value(securityQuestion.getModelObject()).build());
                         userPatch.setSecurityAnswer(
                                 new StringReplacePatchItem.Builder().value(securityAnswer.getModelObject()).build());
-                        userSelfRestClient.update(userTO.getETagValue(), userPatch);
 
-                        parameters.add(Constants.STATUS, Constants.OPERATION_SUCCEEDED);
-                        parameters.add(Constants.NOTIFICATION_TITLE_PARAM,
-                                getString("self.securityquestion.change.success"));
-                        parameters.add(Constants.NOTIFICATION_MSG_PARAM,
-                                getString("self.securityquestion.change.success.msg"));
+                        // update and set page paramters, no need to take into account propagation statuses
+                        RESTUtils.update(userPatch, userTO.getETagValue());
+                        setResponsePage(SelfResult.class,
+                                PageParametersUtils.managePageParams(EditSecurityQuestion.this,
+                                        "securityquestion.change", Collections.emptyList()));
                     } catch (Exception e) {
-                        LOG.error("While changing password for {}",
+                        LOG.error("While updating security question for {}",
                                 SyncopeEnduserSession.get().getSelfTO().getUsername(), e);
-                        parameters.add(Constants.STATUS, Constants.OPERATION_ERROR);
-                        parameters.add(Constants.NOTIFICATION_TITLE_PARAM,
-                                getString("self.securityquestion.change.error"));
-                        parameters.add(Constants.NOTIFICATION_MSG_PARAM,
-                                getString("self.securityquestion.change.error.msg"));
+                        SyncopeEnduserSession.get().onException(e);
+                        ((BasePage) getPageReference().getPage()).getNotificationPanel().refresh(target);
                     }
-                    parameters.add(
-                            Constants.LANDING_PAGE,
-                            SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class).getName());
-                    setResponsePage(SelfResult.class, parameters);
                 }
             }
 

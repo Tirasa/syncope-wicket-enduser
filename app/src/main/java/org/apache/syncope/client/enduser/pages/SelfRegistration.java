@@ -33,7 +33,7 @@ public class SelfRegistration extends BasePage {
 
     public SelfRegistration(final PageParameters parameters) {
         super(parameters, SELF_REGISTRATION);
-        
+
         setDomain(parameters);
         disableSidebar();
 
