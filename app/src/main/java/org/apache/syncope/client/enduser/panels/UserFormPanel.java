@@ -15,37 +15,33 @@
  */
 package org.apache.syncope.client.enduser.panels;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
+import org.apache.syncope.client.enduser.commons.RESTUtils;
 import org.apache.syncope.client.enduser.layout.UserFormLayoutInfo;
 import org.apache.syncope.client.enduser.pages.BasePage;
 import org.apache.syncope.client.enduser.pages.Dashboard;
 import org.apache.syncope.client.enduser.pages.SelfResult;
 import org.apache.syncope.client.enduser.panels.any.Details;
 import org.apache.syncope.client.enduser.panels.any.UserDetails;
-import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
 import org.apache.syncope.client.ui.commons.Constants;
+import org.apache.syncope.client.ui.commons.layout.UserForm;
 import org.apache.syncope.client.ui.commons.wizards.any.AnyWrapper;
 import org.apache.syncope.client.ui.commons.wizards.any.UserWrapper;
 import org.apache.syncope.common.lib.AnyOperations;
 import org.apache.syncope.common.lib.SyncopeClientException;
-import org.apache.syncope.common.lib.patch.UserPatch;
 import org.apache.syncope.common.lib.to.PropagationStatus;
-import org.apache.syncope.common.lib.to.ProvisioningResult;
 import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.syncope.common.lib.types.ExecStatus;
 import org.apache.wicket.PageReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.syncope.client.ui.commons.layout.UserForm;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserFormPanel extends AnyFormPanel<UserTO> implements UserForm {
 
     private static final long serialVersionUID = 6763365006334514387L;
-
-    private final UserSelfRestClient userSelfRestClient = new UserSelfRestClient();
 
     public UserFormPanel(
             final String id,
@@ -100,26 +96,18 @@ public class UserFormPanel extends AnyFormPanel<UserTO> implements UserForm {
             SyncopeEnduserSession.get().error(getString(Constants.CAPTCHA_ERROR));
             ((BasePage) pageReference.getPage()).getNotificationPanel().refresh(target);
         } else {
-            ProvisioningResult<UserTO> result;
-            PageParameters parameters = new PageParameters();
             try {
                 AnyWrapper<UserTO> updatedWrapper = form.getModelObject();
                 UserTO userTO = updatedWrapper.getInnerObject();
 
                 fixPlainAndVirAttrs(userTO, getOriginalItem().getInnerObject());
-                UserPatch patch = AnyOperations.diff(userTO, getOriginalItem().getInnerObject(), false);
 
-                // update just if it is changed
-                if (patch.isEmpty()) {
-                    result = new ProvisioningResult<>();
-                    result.setEntity(userTO);
-                } else {
-                    result = userSelfRestClient.update(getOriginalItem().getInnerObject().getETagValue(), patch);
-                    LOG.debug("User {} has been modified", result.getEntity().getUsername());
-                }
                 List<PropagationStatus> failingPropagations =
-                        result.getPropagationStatuses().stream().filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
+                        RESTUtils.update(AnyOperations.diff(userTO, getOriginalItem().getInnerObject(), false),
+                                        getOriginalItem().getInnerObject().getETagValue())
+                                .getPropagationStatuses().stream().filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
                                 .collect(Collectors.toList());
+                PageParameters parameters = new PageParameters();
                 parameters.add(Constants.STATUS,
                         failingPropagations.isEmpty()
                                 ? Constants.OPERATION_SUCCEEDED
@@ -130,15 +118,16 @@ public class UserFormPanel extends AnyFormPanel<UserTO> implements UserForm {
                 parameters.add(Constants.NOTIFICATION_MSG_PARAM, failingPropagations.isEmpty()
                         ? getString("self.profile.change.success.msg")
                         : getString("self.profile.change.error.msg"));
-            } catch (SyncopeClientException sce) {
-                parameters.add(Constants.STATUS, Constants.ERROR);
-                parameters.add(Constants.NOTIFICATION_TITLE_PARAM, getString("self.profile.change.error"));
-                parameters.add(Constants.NOTIFICATION_MSG_PARAM, getString("self.profile.change.error.msg"));
+                parameters.add(
+                        Constants.LANDING_PAGE,
+                        SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class).getName());
+                setResponsePage(SelfResult.class, parameters);
+            } catch (SyncopeClientException e) {
+                LOG.error("While changing password for {}",
+                        SyncopeEnduserSession.get().getSelfTO().getUsername(), e);
+                SyncopeEnduserSession.get().onException(e);
+                ((BasePage) pageReference.getPage()).getNotificationPanel().refresh(target);
             }
-            parameters.add(
-                    Constants.LANDING_PAGE,
-                    SyncopeEnduserApplication.get().getPageClass("profile", Dashboard.class).getName());
-            setResponsePage(SelfResult.class, parameters);
         }
     }
 }

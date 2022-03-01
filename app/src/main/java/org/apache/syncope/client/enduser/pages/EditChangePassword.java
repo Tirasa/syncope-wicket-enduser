@@ -17,13 +17,13 @@ package org.apache.syncope.client.enduser.pages;
 
 import org.apache.syncope.client.enduser.SyncopeEnduserApplication;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
+import org.apache.syncope.client.enduser.commons.RESTUtils;
 import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
 import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
 import org.apache.syncope.common.lib.patch.PasswordPatch;
 import org.apache.syncope.common.lib.patch.UserPatch;
 import org.apache.syncope.common.lib.to.PropagationStatus;
-import org.apache.syncope.common.lib.to.ProvisioningResult;
 import org.apache.syncope.common.lib.to.UserTO;
 import org.apache.syncope.common.lib.types.ExecStatus;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -43,7 +43,6 @@ public class EditChangePassword extends AbstractChangePassword {
 
     @Override
     protected void doPwdSubmit(final AjaxRequestTarget target, final AjaxPasswordFieldPanel passwordField) {
-        final PageParameters parameters = new PageParameters();
         try {
             UserTO userTO = getPwdLoggedUser();
             PasswordPatch passwordPatch = new PasswordPatch.Builder().
@@ -52,12 +51,12 @@ public class EditChangePassword extends AbstractChangePassword {
             UserPatch userPatch = new UserPatch();
             userPatch.setKey(getPwdLoggedUser().getKey());
             userPatch.setPassword(passwordPatch);
-            ProvisioningResult<UserTO> result = userSelfRestClient.update(userTO.getETagValue(), userPatch);
 
             List<PropagationStatus> failingPropagations =
-                    result.getPropagationStatuses().stream().filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
+                    RESTUtils.update(userPatch, userTO.getETagValue())
+                            .getPropagationStatuses().stream().filter(ps -> ExecStatus.SUCCESS != ps.getStatus())
                             .collect(Collectors.toList());
-
+            final PageParameters parameters = new PageParameters();
             parameters.add(Constants.STATUS,
                     failingPropagations.isEmpty()
                             ? Constants.OPERATION_SUCCEEDED
