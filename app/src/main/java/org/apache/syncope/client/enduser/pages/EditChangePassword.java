@@ -18,7 +18,6 @@ package org.apache.syncope.client.enduser.pages;
 import org.apache.syncope.client.enduser.SyncopeEnduserSession;
 import org.apache.syncope.client.enduser.commons.PageParametersUtils;
 import org.apache.syncope.client.enduser.commons.RESTUtils;
-import org.apache.syncope.client.enduser.rest.UserSelfRestClient;
 import org.apache.syncope.client.ui.commons.markup.html.form.AjaxPasswordFieldPanel;
 import org.apache.syncope.common.lib.patch.PasswordPatch;
 import org.apache.syncope.common.lib.patch.UserPatch;
@@ -31,8 +30,6 @@ import java.util.stream.Collectors;
 public class EditChangePassword extends AbstractChangePassword {
 
     private static final long serialVersionUID = -537205681762708502L;
-
-    private final UserSelfRestClient userSelfRestClient = new UserSelfRestClient();
 
     public EditChangePassword(final PageParameters parameters) {
         super(parameters);

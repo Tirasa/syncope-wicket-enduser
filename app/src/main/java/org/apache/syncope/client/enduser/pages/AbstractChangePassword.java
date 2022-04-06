@@ -35,7 +35,7 @@ public abstract class AbstractChangePassword extends BasePage {
         WebMarkupContainer content = new WebMarkupContainer("content");
         content.setOutputMarkupId(true);
         contentWrapper.add(content);
-        
+
         ChangePasswordPanel changePasswordPanel = getPasswordPanel();
         content.add(changePasswordPanel);
         content.add(new AttributeModifier("style", "height: \"100%\""));
@@ -60,7 +60,7 @@ public abstract class AbstractChangePassword extends BasePage {
             protected UserTO getLoggedUser() {
                 return getPwdLoggedUser();
             }
-            };
+        };
 
         changePasswordPanel.setOutputMarkupId(true);
         return changePasswordPanel;

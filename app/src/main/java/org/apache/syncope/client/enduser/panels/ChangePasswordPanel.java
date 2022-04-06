@@ -58,6 +58,7 @@ public abstract class ChangePasswordPanel extends Panel {
 
             private static final long serialVersionUID = 418292023846536149L;
 
+            @Override
             protected void appendDefaultButtonField() {
                 AppendingStringBuffer buffer = new AppendingStringBuffer();
 
