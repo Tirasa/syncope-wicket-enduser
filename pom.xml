@@ -102,7 +102,7 @@
   </developers>
 
   <properties>
-    <syncope.version>2.1.13-SNAPSHOT</syncope.version>
+    <syncope.version>2.1.13</syncope.version>
 
     <bootbox.version>5.4.0</bootbox.version>
     <font-awesome.version>4.7.0</font-awesome.version>
