@@ -19,8 +19,10 @@ import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.password.stre
 import org.apache.syncope.client.ui.commons.ajax.form.IndicatorAjaxFormComponentUpdatingBehavior;
 import org.apache.syncope.client.ui.commons.Constants;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
 public class AjaxPasswordFieldPanel extends FieldPanel<String> {
@@ -58,6 +60,9 @@ public class AjaxPasswordFieldPanel extends FieldPanel<String> {
                 }
             });
         }
+        final CheckBox togglePassword = new CheckBox("togglePassword", new Model<>());
+        togglePassword.setLabel(new ResourceModel("togglePassword"));
+        add(togglePassword);
     }
 
     @Override
