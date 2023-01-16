@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2020 Tirasa (info@tirasa.net)
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
@@ -16,11 +16,14 @@
 package org.apache.syncope.client.ui.commons.markup.html.form;
 
 import de.agilecoders.wicket.extensions.markup.html.bootstrap.form.password.strength.PasswordStrengthBehavior;
-import org.apache.syncope.client.ui.commons.ajax.form.IndicatorAjaxFormComponentUpdatingBehavior;
+import java.util.Optional;
 import org.apache.syncope.client.ui.commons.Constants;
+import org.apache.syncope.client.ui.commons.ajax.form.IndicatorAjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
 public class AjaxPasswordFieldPanel extends FieldPanel<String> {
@@ -37,14 +40,16 @@ public class AjaxPasswordFieldPanel extends FieldPanel<String> {
     }
 
     public AjaxPasswordFieldPanel(
-            final String id, final String name, final IModel<String> model, final boolean enableOnChange,
+            final String id,
+            final String name,
+            final IModel<String> model,
+            final boolean enableOnChange,
             final PasswordStrengthBehavior passwordStrengthBehavior) {
+
         super(id, name, model);
 
         field = new PasswordTextField("passwordField", model);
-        if (passwordStrengthBehavior != null) {
-            field.add(passwordStrengthBehavior);
-        }
+        Optional.ofNullable(passwordStrengthBehavior).ifPresent(field::add);
         add(field.setLabel(new ResourceModel(name, name)).setRequired(false).setOutputMarkupId(true));
 
         if (enableOnChange && !isReadOnly()) {
@@ -58,6 +63,9 @@ public class AjaxPasswordFieldPanel extends FieldPanel<String> {
                 }
             });
         }
+
+        CheckBox togglePassword = new CheckBox("togglePassword", new Model<>());
+        add(togglePassword.setLabel(new ResourceModel("togglePassword")));
     }
 
     @Override
