@@ -52,12 +52,12 @@ public class SelfRegistration extends BasePage {
         content.add(selfRegistrationPanel);
     }
 
-    private UserFormLayoutInfo buildFormLayout() {
+    protected UserFormLayoutInfo buildFormLayout() {
         UserFormLayoutInfo customlayoutInfo = SyncopeEnduserApplication.get().getCustomFormLayout();
         return customlayoutInfo != null ? customlayoutInfo : new UserFormLayoutInfo();
     }
 
-    private static UserTO buildNewUserTO(final PageParameters parameters) {
+    protected static UserTO buildNewUserTO(final PageParameters parameters) {
         UserTO userTO = new UserTO();
 
         if (parameters != null) {
